@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Designer Dashboard | Talent Thread</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #eff6ff;
+            --surface: #ffffff;
+            --surface-2: #f8fafc;
+            --surface-3: #f1f5f9;
+            --ink: #0f172a;
+            --ink-2: #334155;
+            --ink-3: #64748b;
+            --border: #e2e8f0;
+            --success: #059669;
+            --success-bg: #ecfdf5;
+            --warning: #d97706;
+            --warning-bg: #fffbeb;
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+            --purple: #7c3aed;
+            --purple-bg: #f5f3ff;
+            --gold: #d97706;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--surface-2);
+            color: var(--ink);
+            line-height: 1.5;
+            visibility: hidden;
+            /* Initial state per PRD */
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: 0.15s ease;
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        button {
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.15s ease;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 24px;
+            height: 72px;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-monogram {
+            background-color: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-link {
+            color: var(--ink-2);
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-icon {
+            color: var(--ink-2);
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .nav-icon:hover {
+            background-color: var(--surface-3);
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background-color: var(--danger);
+            border-radius: 50%;
+            display: none;
+        }
+
+        .plan-badge {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 100px;
+        }
+
+        .plan-badge.free {
+            border: 1px solid var(--border);
+            color: var(--ink-2);
+        }
+
+        .plan-badge.pro {
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            color: white;
+            border: none;
+        }
+
+        .nav-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .nav-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Main Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px;
+            display: grid;
+            grid-template-columns: 65% calc(35% - 24px);
+            gap: 24px;
+        }
+
+        @media (max-width: 992px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-center {
+                display: none;
+            }
+        }
+
+        .col-left {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .col-right {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--surface);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            padding: 24px;
+            position: relative;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            border: none;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--border);
+            color: var(--ink);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--surface-2);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Section 1: Identity Card */
+        .identity-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .identity-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .identity-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 600;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .identity-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .identity-info h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .identity-info .handle {
+            color: var(--ink-3);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            background-color: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--ink-2);
+            gap: 6px;
+        }
+
+        .availability-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .status-dot.available {
+            background-color: var(--success);
+        }
+
+        .status-dot.partial {
+            background-color: var(--warning);
+        }
+
+        .status-dot.unavailable {
+            background-color: var(--danger);
+        }
+
+        .identity-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
+        }
+
+        .completeness-banner {
+            margin-top: 24px;
+            background-color: var(--primary-light);
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            display: none;
+            /* hidden by default */
+        }
+
+        .progress-track {
+            height: 6px;
+            background-color: var(--border);
+            border-radius: 100px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 100px;
+            transition: width 1s ease;
+        }
+
+        /* Section 2: Profile Strength */
+        .strength-checklist {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .check-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--surface-2);
+        }
+
+        .check-item:last-child {
+            border-bottom: none;
+        }
+
+        .check-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+        }
+
+        .check-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .check-icon.done {
+            color: var(--success);
+        }
+
+        .check-icon.pending {
+            color: var(--border);
+        }
+
+        /* Section 3: AI Score Panel */
+        .score-display {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .score-ring {
+            position: relative;
+            width: 140px;
+            height: 140px;
+        }
+
+        .score-ring svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+
+        .score-ring circle {
+            fill: transparent;
+            stroke-width: 8;
+            cx: 70;
+            cy: 70;
+            r: 60;
+        }
+
+        .score-ring-bg {
+            stroke: var(--surface-2);
+        }
+
+        .score-ring-fill {
+            stroke: var(--primary);
+            stroke-dasharray: 377;
+            /* 2 * pi * r */
+            stroke-dashoffset: 377;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1.2s ease-in-out;
+        }
+
+        .score-number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            font-weight: 700;
+        }
+
+        .score-band {
+            margin-top: 12px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .dimensions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .dimension-item {
+            display: grid;
+            grid-template-columns: 140px 1fr 30px;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .dim-bar-track {
+            height: 8px;
+            background-color: var(--surface-2);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+
+        .dim-bar-fill {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 1s ease-out;
+        }
+
+        .earning-potential {
+            background-color: var(--surface-2);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: var(--ink-2);
+            text-align: center;
+        }
+
+        /* Section 4: Stats Row */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .stat-card {
+            padding: 20px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--ink-2);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-sub {
+            font-size: 12px;
+            color: var(--ink-3);
+            margin-top: 8px;
+        }
+
+        /* Section 5: Active Contracts */
+        .contract-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .contract-item {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .contract-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .contract-title {
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .contract-client {
+            font-size: 13px;
+            color: var(--ink-2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .client-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--surface-3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* Section 6: Steps */
+        .steps-card.completed {
+            display: none;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--surface-2);
+        }
+
+        .step-item:last-child {
+            border-bottom: none;
+        }
+
+        .step-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--surface-2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--ink-3);
+        }
+
+        .step-item.done .step-icon {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+
+        .step-item.done .step-content h4 {
+            text-decoration: line-through;
+            color: var(--ink-3);
+        }
+
+        .step-content h4 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .step-content p {
+            font-size: 13px;
+            color: var(--ink-2);
+            margin-bottom: 12px;
+        }
+
+        /* Section 7: Notifications */
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .notification-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            background: var(--surface-2);
+            border-left: 3px solid transparent;
+            cursor: pointer;
+        }
+
+        .notification-item.unread {
+            border-left-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .notif-icon {
+            flex-shrink: 0;
+            font-size: 16px;
+        }
+
+        .notif-content h4 {
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+
+        .notification-item.unread h4 {
+            font-weight: 600;
+        }
+
+        .notif-content p {
+            font-size: 12px;
+            color: var(--ink-2);
+        }
+
+        .notif-time {
+            font-size: 11px;
+            color: var(--ink-3);
+            margin-top: 4px;
+        }
+
+        /* Jobs */
+        .job-item {
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .job-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .job-meta {
+            font-size: 12px;
+            color: var(--ink-2);
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        /* Challenges */
+        .challenge-card {
+            background: linear-gradient(to bottom right, var(--surface), var(--surface-2));
+            border: 1px solid var(--border);
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+            cursor: pointer;
+            z-index: 100;
+            transition: transform 0.2s;
+        }
+
+        .fab:hover {
+            transform: scale(1.05);
+        }
+
+        .fab-menu {
+            position: fixed;
+            bottom: 100px;
+            right: 32px;
+            background: var(--surface);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: all 0.2s ease;
+            z-index: 99;
+        }
+
+        .fab-menu.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .fab-menu a {
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .fab-menu a:hover {
+            background: var(--surface-2);
+        }
+
+        .fab-menu a.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Utilities */
+        .text-grey {
+            color: var(--ink-2);
+        }
+
+        .text-sm {
+            font-size: 13px;
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mt-4 {
+            margin-top: 16px;
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 4px;
+            color: transparent !important;
+        }
+
+        .skeleton * {
+            visibility: hidden;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transform: translateX(120%);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        .toast.warning {
+            border-left: 4px solid var(--warning);
+        }
+
+        /* Card Hover Effects */
+        .card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .col-left>*,
+        .col-right>* {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo-monogram">TT</div>
+            <div class="logo-text">TalentThread</div>
+        </div>
+        <div class="nav-center">
+            <a href="/dashboard" class="nav-link active">Dashboard</a>
+            <a href="/find-work" class="nav-link">Find Work</a>
+            <a href="/my-applications" class="nav-link">My Applications</a>
+            <a href="/contracts.html" class="nav-link">Contracts</a>
+            <a href="/portfolio.html" class="nav-link">Portfolio</a>
+        </div>
+        <div class="nav-right">
+            <div class="nav-icon" title="Notifications">
+                🔔 <div class="notification-dot" id="notif-dot"></div>
+            </div>
+            <div class="nav-icon" title="Messages">✉️</div>
+            <div id="nav-plan-badge" class="plan-badge free skeleton">FREE</div>
+            <div style="position: relative;">
+                <div class="nav-avatar skeleton" id="nav-avatar"></div>
+                <div class="dropdown-menu" id="avatar-dropdown"
+                    style="display: none; position: absolute; top: 48px; right: 0; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 8px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); min-width: 160px; text-align: left;">
+                    <a href="/profile-edit.html"
+                        style="display: block; padding: 8px 16px; color: var(--ink); font-size: 14px;">Edit Profile</a>
+                    <a href="/settings.html"
+                        style="display: block; padding: 8px 16px; color: var(--ink); font-size: 14px;">Settings</a>
+                    <div style="border-top: 1px solid var(--border); margin: 4px 0;"></div>
+                    <a href="#" id="logout-btn"
+                        style="display: block; padding: 8px 16px; color: var(--danger); font-size: 14px;">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Left Column (65%) -->
+        <div class="col-left">
+
+            <!-- SECTION 1: Identity Card -->
+            <div class="card" id="identity-card">
+                <div class="identity-top">
+                    <div class="identity-left">
+                        <div class="identity-avatar skeleton" id="id-avatar"></div>
+                        <div class="identity-info">
+                            <h1 id="id-name" class="skeleton" style="width: 200px; height: 30px; display: block;"></h1>
+                            <div id="id-handle" class="handle skeleton"
+                                style="width: 100px; height: 20px; display: block;"></div>
+                            <div class="chip skeleton" id="id-discipline" style="width: 120px; height: 24px;"></div>
+                            <span class="text-sm text-grey skeleton" id="id-location"
+                                style="margin-left: 8px; width: 80px; display: inline-block; height: 20px;"></span>
+                        </div>
+                    </div>
+
+                    <div class="identity-center">
+                        <button class="availability-toggle skeleton" id="availability-btn"
+                            style="width: 150px; height: 36px;">
+                            <div class="status-dot available" id="availability-dot"></div>
+                            <span id="availability-text">Available</span>
+                        </button>
+                    </div>
+
+                    <div class="identity-right">
+                        <div id="id-plan" class="plan-badge free skeleton" style="width: 60px; height: 24px;"></div>
+                        <a href="/pricing.html" id="upgrade-link" class="text-sm" style="display: none;">Upgrade to Pro
+                            ₹499/mo →</a>
+                        <a href="#" id="view-profile-btn" class="btn btn-outline text-sm mt-4 skeleton"
+                            style="width: 140px; height: 36px;"></a>
+                    </div>
+                </div>
+
+                <div class="completeness-banner" id="completeness-banner">
+                    <div>
+                        <div style="font-weight: 600; color: var(--primary-dark); font-size: 14px;"
+                            id="completeness-text">Your profile is 0% complete</div>
+                        <div class="progress-track" style="width: 200px;">
+                            <div class="progress-fill" id="completeness-fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    <a href="/profile.html" class="btn btn-primary text-sm">Complete Profile →</a>
+                </div>
+            </div>
+
+            <!-- SECTION 4: Earnings & Stats Row (Moved up for better flow visually) -->
+            <div class="stats-grid" id="stats-section">
+                <div class="card stat-card">
+                    <div class="stat-label">₹ Total Earned</div>
+                    <div class="stat-value skeleton" id="stat-earned" style="width: 120px; height: 34px;"></div>
+                    <div class="stat-sub">After 10% platform fee</div>
+                </div>
+                <div class="card stat-card" style="cursor: pointer;" onclick="window.location.href='/contracts.html'">
+                    <div class="stat-label">📋 Active Contracts</div>
+                    <div class="stat-value skeleton" id="stat-contracts" style="width: 40px; height: 34px;"></div>
+                    <div class="stat-sub text-primary">View all →</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-label">📨 Applications Sent</div>
+                    <div class="stat-value skeleton" id="stat-apps" style="width: 40px; height: 34px;"></div>
+                    <div class="stat-sub" id="stat-apps-sub">0 shortlisted</div>
+                </div>
+                <div class="card stat-card" style="opacity: 0.6;">
+                    <div class="stat-label">⭐ Avg Rating <span
+                            title="Available after first completed contract">🔒</span></div>
+                    <div class="stat-value" style="font-size: 20px; margin-top: 8px;">Coming soon</div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: Profile Strength -->
+            <div class="card" id="strength-card">
+                <div class="card-header">
+                    <div class="card-title">Profile Strength</div>
+                    <div style="font-weight: 700;" id="strength-score" class="skeleton">0 / 10</div>
+                </div>
+                <div class="progress-track" style="height: 8px;">
+                    <div class="progress-fill" id="strength-fill"
+                        style="width: 0%; transition: width 1s ease, background-color 0.5s;"></div>
+                </div>
+
+                <div class="strength-checklist" id="strength-list">
+                    <!-- Populated by JS -->
+                </div>
+                <button class="btn btn-outline text-sm" id="strength-expand-btn"
+                    style="width: 100%; margin-top: 12px; display: none;">Show all</button>
+            </div>
+
+            <!-- SECTION 3: AI Score Panel -->
+            <div class="card" id="score-card">
+                <div class="card-header">
+                    <div class="card-title">Your AI Portfolio Score</div>
+                    <div class="text-sm text-grey" id="score-date">Loading...</div>
+                </div>
+
+                <div id="score-content" style="display: none;">
+                    <div class="score-display">
+                        <div class="score-ring">
+                            <svg viewBox="0 0 140 140">
+                                <circle class="score-ring-bg"></circle>
+                                <circle class="score-ring-fill" id="score-ring-svg"></circle>
+                            </svg>
+                            <div class="score-number" id="score-num">--</div>
+                        </div>
+                        <div class="score-band" id="score-band-name">Analyzing...</div>
+                    </div>
+
+                    <div class="earning-potential" id="earning-potential">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <div class="dimensions-list" id="dimensions-list">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <div class="flex-between mt-4">
+                        <button class="btn btn-outline" id="reanalyze-btn">Re-analyse Portfolio</button>
+                        <a href="/review.html" class="btn btn-primary">View Full Report →</a>
+                    </div>
+                </div>
+
+                <div id="score-cta" style="display: none; text-align: center; padding: 24px 0;">
+                    <div style="font-size: 40px; margin-bottom: 16px;">✨</div>
+                    <h3 style="margin-bottom: 8px;">Discover your AI Score</h3>
+                    <p class="text-grey text-sm" style="margin-bottom: 24px;">Find out how clients evaluate your
+                        portfolio and unlock targeted growth challenges.</p>
+                    <a href="/review.html" class="btn btn-primary">Analyse My Portfolio →</a>
+                </div>
+            </div>
+
+            <!-- SECTION 5: Active Contracts & Milestones -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Active Contracts</div>
+                    <a href="/contracts.html" class="text-sm">View All →</a>
+                </div>
+
+                <div id="contracts-list" class="contract-list">
+                    <div class="skeleton" style="height: 120px; width: 100%; border-radius: 8px;"></div>
+                </div>
+
+                <div id="contracts-empty" style="display: none; text-align: center; padding: 32px 0;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">🤝</div>
+                    <h4 style="margin-bottom: 8px;">No active contracts yet</h4>
+                    <p class="text-sm text-grey" style="margin-bottom: 24px;">Browse open projects and apply to start
+                        earning</p>
+                    <a href="/marketplace.html" class="btn btn-primary">Find Work →</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column (35%) -->
+        <div class="col-right">
+
+            <!-- SECTION 6: Complete These Steps -->
+            <div class="card steps-card" id="onboarding-steps-card">
+                <div class="card-header" style="margin-bottom: 8px;">
+                    <div class="card-title">Complete these steps</div>
+                </div>
+                <p class="text-sm text-grey" style="margin-bottom: 16px;">Start strong. Unlock features as you grow.</p>
+
+                <div class="progress-track" style="height: 6px; margin-bottom: 16px;">
+                    <div class="progress-fill" id="steps-progress-fill" style="width: 0%;"></div>
+                </div>
+                <div class="text-sm font-semibold" style="margin-bottom: 16px;" id="steps-count-text">0 of 5 steps
+                    complete</div>
+
+                <div class="steps-list" id="steps-container">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Confetti container -->
+            <div id="setup-complete-msg" class="card"
+                style="display: none; text-align: center; background: var(--success-bg); border-color: #a7f3d0;">
+                <div style="font-size: 40px; margin-bottom: 12px;">🎉</div>
+                <h3 style="color: var(--success); margin-bottom: 8px;">You're fully set up!</h3>
+                <p class="text-sm text-grey">You're now visible to clients and ready to win work.</p>
+            </div>
+
+            <!-- Streak Tracker & Market Pulse Mini Row -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="card" style="padding: 16px; text-align: center;">
+                    <div style="font-size: 24px; margin-bottom: 4px;">🔥</div>
+                    <div class="text-sm text-grey">Login Streak</div>
+                    <div style="font-size: 18px; font-weight: 700;" id="streak-count" class="skeleton"
+                        style="width: 40px; height: 24px; margin: 0 auto;"></div>
+                </div>
+                <div class="card" style="padding: 16px; background: var(--primary-light); border-color: #bfdbfe;">
+                    <div style="font-size: 16px; margin-bottom: 4px;">💡 Tip of the Day</div>
+                    <div class="text-sm" id="daily-tip" style="font-size: 12px; line-height: 1.4;"></div>
+                </div>
+            </div>
+
+            <!-- SECTION 7: Notifications -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Recent Activity <span id="notif-badge"
+                            style="background: var(--danger); color: white; padding: 2px 8px; border-radius: 100px; font-size: 12px; margin-left: 8px; display: none;"></span>
+                    </div>
+                    <button class="btn btn-outline text-sm" style="padding: 4px 8px;" id="mark-read-btn">Mark all
+                        read</button>
+                </div>
+
+                <div class="notification-list" id="notif-list">
+                    <div class="skeleton" style="height: 60px; width: 100%; border-radius: 8px;"></div>
+                    <div class="skeleton" style="height: 60px; width: 100%; border-radius: 8px;"></div>
+                </div>
+            </div>
+
+            <!-- SECTION 9: Skill Challenges -->
+            <div class="card" id="challenges-card" style="display: none;">
+                <div class="card-header">
+                    <div class="card-title">Growth Challenges</div>
+                    <div class="chip"
+                        style="background: var(--purple-bg); color: var(--purple); border-color: #ddd6fe;"><span
+                            id="total-xp">0</span> XP</div>
+                </div>
+
+                <div id="active-challenge-container">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div class="mt-4">
+                    <div class="flex-between text-sm" style="margin-bottom: 8px;">
+                        <span class="font-semibold" id="level-text">Level 1 — Novice</span>
+                        <span class="text-grey" id="xp-progress-text"></span>
+                    </div>
+                    <div class="progress-track" style="height: 8px;">
+                        <div class="progress-fill" id="level-progress-fill"
+                            style="background: var(--purple); width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 8: Recommended Jobs -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Jobs For You</div>
+                        <div class="text-sm text-grey" style="font-weight: normal; margin-top: 4px;">Based on your
+                            discipline</div>
+                    </div>
+                    <a href="/marketplace.html" class="text-sm">View All →</a>
+                </div>
+
+                <div id="recommended-jobs-list">
+                    <div class="skeleton" style="height: 100px; width: 100%; border-radius: 8px; margin-bottom: 12px;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Pulse Widget -->
+            <div class="card">
+                <div class="card-header" style="margin-bottom: 12px;">
+                    <div class="card-title" style="font-size: 15px;">Market Pulse</div>
+                </div>
+                <div class="text-sm text-grey mb-4" style="margin-bottom: 16px;">Most in-demand disciplines this week
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div>
+                        <div class="flex-between text-sm" style="margin-bottom: 4px;"><span>UI/UX Design</span><span
+                                class="text-grey">Very High</span></div>
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex-between text-sm" style="margin-bottom: 4px;"><span>Brand Identity</span><span
+                                class="text-grey">High</span></div>
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width: 70%;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex-between text-sm" style="margin-bottom: 4px;"><span>Motion Graphics</span><span
+                                class="text-grey">High</span></div>
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="pulse-highlight" class="mt-4 text-sm" style="color: var(--success); display: none;">
+                    ✓ Your discipline is in high demand!
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Quick Actions FAB -->
+    <div class="fab-menu" id="fab-menu">
+        <a href="#" class="disabled">📝 Post a Gig (Coming soon)</a>
+        <a href="/marketplace.html">📨 Apply to Job</a>
+        <a href="/review.html">✨ Run AI Analysis</a>
+    </div>
+    <div class="fab" id="fab-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script type="module" src="/js/designer-dashboard.js"></script>
+    <script>
+        // Simple FAB toggle logic (UI only)
+        document.getElementById('fab-btn').addEventListener('click', function () {
+            document.getElementById('fab-menu').classList.toggle('active');
+            this.style.transform = document.getElementById('fab-menu').classList.contains('active') ? 'rotate(45deg)' : 'none';
+        });
+
+        // Click outside FAB to close
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('#fab-btn') && !e.target.closest('#fab-menu')) {
+                document.getElementById('fab-menu').classList.remove('active');
+                document.getElementById('fab-btn').style.transform = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

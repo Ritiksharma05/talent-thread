@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio | Talent Thread</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #eff6ff;
+            --surface: #ffffff;
+            --surface-2: #f8fafc;
+            --surface-3: #f1f5f9;
+            --ink: #0f172a;
+            --ink-2: #334155;
+            --ink-3: #64748b;
+            --border: #e2e8f0;
+            --success: #059669;
+            --success-bg: #ecfdf5;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --gold: #d97706;
+            --radius: 12px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--surface-2);
+            color: var(--ink);
+            visibility: hidden;
+            min-height: 100vh;
+        }
+
+        /* Nav */
+        .navbar {
+            background: var(--surface);
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .nav-brand { font-weight: 800; font-size: 20px; color: var(--primary); text-decoration: none; }
+
+        /* Header */
+        .page-header { background: var(--surface); padding: 40px 24px; border-bottom: 1px solid var(--border); }
+        .container { max-width: 1100px; margin: 0 auto; width: 100%; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        
+        .btn { border: none; border-radius: 8px; padding: 10px 20px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.15s; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-outline { background: white; border: 1px solid var(--border); color: var(--ink-2); }
+        .btn-outline:hover { background: var(--surface-2); }
+
+        /* Stats Bar */
+        .stats-bar { display: flex; gap: 40px; margin-top: 24px; }
+        .stat-item { display: flex; flex-direction: column; }
+        .stat-label { font-size: 11px; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.05em; }
+        .stat-value { font-size: 18px; font-weight: 700; }
+
+        /* Featured Section */
+        .section-label { font-size: 14px; font-weight: 700; color: var(--ink-2); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .featured-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin-bottom: 40px; }
+        .ghost-card { border: 2px dashed var(--border); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; height: 160px; color: var(--ink-3); cursor: pointer; transition: 0.15s; }
+        .ghost-card:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+
+        /* Grid */
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; padding-bottom: 80px; }
+        
+        /* Card */
+        .project-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        .project-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+        
+        .card-img-wrap { position: relative; width: 100%; aspect-ratio: 4/3; background: var(--surface-3); overflow: hidden; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; }
+        .card-overlay { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.7); display: flex; align-items: center; justify-content: center; gap: 12px; opacity: 0; transition: 0.2s; }
+        .project-card:hover .card-overlay { opacity: 1; }
+        
+        .card-badge { position: absolute; top: 12px; left: 12px; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; color: white; text-transform: uppercase; }
+        .badge-featured { background: var(--gold); }
+        .badge-cat { top: auto; bottom: 12px; background: rgba(0,0,0,0.5); font-weight: 500; }
+
+        .card-content { padding: 16px; }
+        .card-title { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+        .card-desc { font-size: 13px; color: var(--ink-3); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        .card-tools { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 12px; }
+        .tool-chip { font-size: 10px; background: var(--surface-2); padding: 2px 6px; border-radius: 4px; color: var(--ink-2); }
+
+        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border); }
+        .drag-handle { cursor: grab; color: var(--ink-3); }
+
+        /* Slide-over */
+        .slide-over { position: fixed; right: 0; top: 0; bottom: 0; width: 480px; background: white; z-index: 1000; box-shadow: -4px 0 20px rgba(0,0,0,0.1); transform: translateX(100%); transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; }
+        .slide-over.active { transform: translateX(0); }
+        .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 999; display: none; }
+        .backdrop.active { display: block; }
+
+        .so-header { padding: 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .so-body { flex: 1; overflow-y: auto; padding: 24px; }
+        .so-footer { padding: 20px 24px; background: var(--surface-2); border-top: 1px solid var(--border); }
+
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+        .form-input, .form-textarea, .form-select { width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: inherit; outline: none; }
+        .form-textarea { height: 120px; resize: none; }
+        .char-count { font-size: 11px; text-align: right; color: var(--ink-3); margin-top: 4px; }
+
+        .tag-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+        .tag { background: var(--primary-light); color: var(--primary); padding: 4px 10px; border-radius: 6px; font-size: 12px; display: flex; align-items: center; gap: 6px; }
+        .tag-remove { cursor: pointer; font-weight: bold; }
+
+        .upload-area { border: 2px dashed var(--border); border-radius: 8px; padding: 32px; text-align: center; cursor: pointer; transition: 0.15s; }
+        .upload-area:hover { border-color: var(--primary); background: var(--primary-light); }
+        
+        .preview-strip { display: flex; gap: 8px; overflow-x: auto; margin-top: 12px; padding-bottom: 8px; }
+        .preview-thumb { width: 80px; height: 60px; border-radius: 4px; object-fit: cover; position: relative; }
+
+        /* Modal Preview */
+        .preview-modal { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); z-index: 2000; display: none; }
+        .pm-container { display: flex; height: 100%; }
+        .pm-main { flex: 1; display: flex; flex-direction: column; padding: 40px; position: relative; }
+        .pm-info { width: 400px; background: var(--surface); padding: 40px; overflow-y: auto; }
+        .pm-close { position: absolute; top: 24px; right: 24px; color: white; font-size: 32px; cursor: pointer; }
+
+        /* Empty State */
+        .empty-state { text-align: center; padding: 80px 24px; color: var(--ink-3); }
+        .empty-state h2 { color: var(--ink); margin: 24px 0 12px; }
+
+        /* Reorder Mode */
+        .reorder-mode .project-card { cursor: move; }
+
+        /* Toast */
+        .toast-container { position: fixed; top: 24px; right: 24px; z-index: 3000; display: flex; flex-direction: column; gap: 8px; }
+        .toast { background: var(--ink); color: white; padding: 12px 20px; border-radius: 8px; font-size: 14px; box-shadow: var(--shadow-md); animation: slideIn 0.3s; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+        @media (max-width: 768px) {
+            .slide-over { width: 100%; }
+            .pm-container { flex-direction: column; }
+            .pm-info { width: 100%; height: 50%; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="nav-brand">TalentThread</a>
+        <div class="nav-right">
+            <a href="/designer-dashboard.html" class="btn btn-outline" style="padding: 6px 12px; font-size: 12px;">Dashboard</a>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <div class="flex-between">
+                <div>
+                    <h1>My Portfolio</h1>
+                    <p id="project-count" class="text-grey mt-4">0 projects published</p>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <button id="reorder-btn" class="btn btn-outline">Reorder</button>
+                    <button id="add-project-btn" class="btn btn-primary">+ Add Project</button>
+                </div>
+            </div>
+            
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-label">Featured</span>
+                    <span id="stat-featured" class="stat-value">0/3</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Categories</span>
+                    <span id="stat-categories" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Most Used Tool</span>
+                    <span id="stat-tool" class="stat-value">None</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mt-4" style="padding: 24px;">
+        <div id="featured-section" class="hidden">
+            <div class="section-label">⭐ Featured Work</div>
+            <div id="featured-grid" class="featured-grid"></div>
+        </div>
+
+        <div class="section-label">All Projects</div>
+        
+        <!-- Filters -->
+        <div id="category-filters" class="flex-between mb-4" style="margin-bottom: 24px; overflow-x: auto; gap: 8px;">
+            <button class="tab-btn active" data-cat="all">All</button>
+            <!-- Dynamic categories here -->
+        </div>
+
+        <div id="portfolio-grid" class="portfolio-grid">
+            <!-- Loading projects... -->
+        </div>
+    </main>
+
+    <!-- Add/Edit Slide-over -->
+    <div id="form-backdrop" class="backdrop"></div>
+    <div id="form-panel" class="slide-over">
+        <div class="so-header">
+            <h2 id="form-title">Add Project</h2>
+            <button class="btn-outline" onclick="closeForm()">×</button>
+        </div>
+        <div class="so-body">
+            <form id="project-form">
+                <div class="form-group">
+                    <label class="form-label">Project Title *</label>
+                    <input type="text" id="p-title" class="form-input" placeholder="e.g. Minimalist Coffee Branding" required maxlength="80">
+                    <div class="char-count"><span id="p-title-count">80</span> characters remaining</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Category *</label>
+                    <select id="p-category" class="form-select" required>
+                        <option value="">Select Category</option>
+                        <option>Brand Identity</option>
+                        <option>UI/UX Design</option>
+                        <option>Motion Graphics</option>
+                        <option>Illustration</option>
+                        <option>Web Design</option>
+                        <option>Social Media</option>
+                        <option>Print</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Description *</label>
+                    <textarea id="p-desc" class="form-textarea" placeholder="Describe the project..." required minlength="50" maxlength="500"></textarea>
+                    <div class="char-count"><span id="p-desc-count">500</span> remaining</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tools Used</label>
+                    <input type="text" id="p-tool-input" class="form-input" placeholder="Type a tool and press Enter">
+                    <div id="p-tags" class="tag-wrap mt-4"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Project Images</label>
+                    <div id="p-upload" class="upload-area">
+                        <p>Click to add images (max 8MB)</p>
+                        <p class="text-xs text-grey">Images are stored in browser for now</p>
+                        <input type="file" id="p-file-input" multiple hidden accept="image/*">
+                    </div>
+                    <div id="p-previews" class="preview-strip"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Case Study Link</label>
+                    <input type="url" id="p-link" class="form-input" placeholder="https://behance.net/...">
+                </div>
+
+                <div class="form-group flex-between">
+                    <div>
+                        <label class="form-label" style="margin-bottom:0">Feature this project</label>
+                        <p class="text-xs text-grey">Appears at the top of your profile</p>
+                    </div>
+                    <input type="checkbox" id="p-featured" style="width:20px; height:20px">
+                </div>
+            </form>
+        </div>
+        <div class="so-footer">
+            <button id="save-project-btn" class="btn btn-primary" style="width:100%; justify-content:center">Save Project</button>
+            <button class="btn btn-outline" style="width:100%; justify-content:center; margin-top:8px" onclick="closeForm()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="preview-modal" class="preview-modal">
+        <span class="pm-close" onclick="closePreview()">×</span>
+        <div class="pm-container">
+            <div class="pm-main">
+                <div id="pm-image-wrap" style="flex:1; display:flex; align-items:center; justify-content:center; overflow:hidden">
+                    <img id="pm-image" src="" style="max-width:100%; max-height:100%; object-fit:contain">
+                </div>
+                <div id="pm-thumbs" class="preview-strip" style="justify-content:center"></div>
+            </div>
+            <div class="pm-info">
+                <div id="pm-cat" class="card-badge badge-cat" style="position:static; display:inline-block; margin-bottom:12px"></div>
+                <h2 id="pm-title" style="margin-bottom:16px"></h2>
+                <div id="pm-desc" class="text-grey" style="line-height:1.6; margin-bottom:24px"></div>
+                <div class="section-label">Tools</div>
+                <div id="pm-tools" class="card-tools" style="margin-bottom:24px"></div>
+                <a id="pm-link" href="#" target="_blank" class="btn btn-primary" style="width:100%; justify-content:center">View Case Study →</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="/js/shared.js"></script>
+    <script type="module" src="/js/portfolio.js"></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Elevator — Talent Thread</title>
+    <style>
+        body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background: #f1f5f9; }
+        .card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; }
+        button { background: #2563eb; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Elevate to Admin</h1>
+        <p>Click below to set your account role to "admin".</p>
+        <button id="fixBtn">Make Me Admin</button>
+        <div id="status" style="margin-top: 20px; font-weight: 600"></div>
+    </div>
+
+    <script type="module">
+        import { auth, db } from './js/firebase-init.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const btn = document.getElementById('fixBtn');
+        const status = document.getElementById('status');
+
+        btn.onclick = async () => {
+            const user = auth.currentUser;
+            if (!user) { status.innerText = "Error: Please log in first."; return; }
+            
+            try {
+                await updateDoc(doc(db, "users", user.uid), {
+                    role: "admin"
+                });
+                status.style.color = "green";
+                status.innerText = "SUCCESS! You are now an Admin. Redirecting...";
+                setTimeout(() => window.location.href = '/khelgavalo.html', 2000);
+            } catch (e) {
+                status.style.color = "red";
+                status.innerText = "Error: " + e.message;
+            }
+        };
+    </script>
+</body>
+</html>

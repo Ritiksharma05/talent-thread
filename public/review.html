@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="AI Portfolio Analysis — Get a structured portfolio score with dimension breakdowns, gap analysis vs top designers, and a personalised week-by-week growth plan." />
+  <title>Talent Thread | AI Portfolio Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/thread-ui.css" />
+  <link rel="stylesheet" href="/css/platform-v2.css" />
+  <link rel="stylesheet" href="/css/review-dashboard.css" />
+</head>
+
+<body>
+
+  <nav class="site-nav-thread" id="siteHeader">
+    <a class="nav-brand" href="/">
+      <img src="/assets/logos/tt-logo.png" alt="Talent Thread" class="nav-brand-logo" />
+    </a>
+    <div class="nav-links" id="mainNav">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/marketplace.html" class="nav-link">Marketplace</a>
+      <a href="/review.html" class="nav-link active">AI Analysis</a>
+      <a href="/skill-lab.html" class="nav-link">Skill Lab</a>
+      <a href="/profile.html" class="nav-link nav-logged-in">Dashboard</a>
+      <div class="mobile-only">
+        <a href="/login.html" class="nav-link nav-logged-out">Log In</a>
+        <a href="/hire.html" class="nav-link nav-logged-out">Post a Project</a>
+        <a href="/profile.html" class="nav-link nav-logged-in">Dashboard →</a>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a href="/login.html" class="btn btn-ghost btn-sm nav-logged-out">Log In</a>
+      <a href="/hire.html" class="btn btn-primary btn-sm nav-logged-out">Post a Project</a>
+      <a href="/profile.html" class="btn btn-primary btn-sm nav-logged-in">Dashboard →</a>
+    </div>
+    <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main class="rv-page-bg">
+
+    <!-- Demo Mode Banner (shown when viewing demo data, hidden for real data) -->
+    <div id="demoBanner" class="rv-demo-banner hidden">
+      <div class="shell rv-demo-banner-inner">
+        <span>👁 You are viewing a <strong>demo report</strong> for Aarohi Mehta. This is not your data.</span>
+        <div class="rv-demo-banner-actions">
+          <a class="button secondary rv-demo-btn-sm" href="/login.html">Log in</a>
+          <a class="button primary rv-demo-btn-sm" href="/signup.html">Get my analysis →</a>
+          <button class="rv-demo-dismiss" id="demoBannerDismiss" type="button" aria-label="Dismiss">✕</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error / Auth gate (403 wrong role only) -->
+    <div class="shell">
+      <div id="authGate" class="empty-state hidden"></div>
+    </div>
+
+    <!-- Empty State (logged in designer, no review yet) -->
+    <div class="shell" id="emptyStateWrap">
+      <div id="emptyState" class="empty-state hidden">
+        <h3>No analysis yet.</h3>
+        <p>Complete your onboarding to generate your first AI portfolio analysis.</p>
+        <div class="hero-actions" style="justify-content: center; margin-top: 1rem;">
+          <a class="button primary" href="/onboarding.html">Start Onboarding</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================
+           MAIN DASHBOARD — always rendered (starts with demo data)
+           ================================================ -->
+    <div id="reviewContent" class="rv-dashboard hidden">
+
+      <!-- Dashboard Header Bar -->
+      <div class="rv-dash-header shell">
+        <div>
+          <h1 class="rv-dash-title">Portfolio Score Overview</h1>
+          <p id="dashEvalDate" class="rv-dash-date">Evaluating…</p>
+        </div>
+        <div class="rv-dash-header-actions">
+          <button class="button secondary" id="exportReportBtn" type="button" title="Print or save as PDF">↓ Export
+            Report</button>
+        </div>
+      </div>
+
+      <div class="rv-content-shell shell">
+
+        <!-- ── Row 1: Overall Score + Persona ── -->
+        <div class="rv-top-row">
+
+          <div class="rv-card rv-score-card">
+            <p class="rv-card-eyebrow">OVERALL SCORE <span class="rv-info-btn"
+                title="Composite score across 6 design dimensions">ⓘ</span></p>
+            <div class="rv-score-inner">
+              <div id="scoreRingWrap"></div>
+              <div class="rv-score-meta">
+                <div id="topPercentBadge" class="rv-top-pct"></div>
+                <p id="topPercentNote" class="rv-top-note"></p>
+                <button class="button ghost rv-bench-btn" type="button" id="viewBenchmarkBtn">View Benchmark →</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="personaCard" class="rv-card rv-persona-card">
+            <!-- Filled by JS -->
+          </div>
+
+        </div>
+
+        <!-- ── Row 2: 6 Dimension Score Cards ── -->
+        <div id="dimScoreRow" class="rv-dim-row"></div>
+
+        <!-- ── Row 3: Score Breakdown + Strengths & Weaknesses ── -->
+        <div class="rv-middle-row">
+
+          <div class="rv-card rv-breakdown-card">
+            <h2 class="rv-card-title">Score Breakdown <span class="rv-info-btn"
+                title="Radar view of your 6 score dimensions">ⓘ</span></h2>
+            <div class="rv-breakdown-body">
+              <div id="radarChartWrap"></div>
+              <div id="breakdownList" class="rv-breakdown-list"></div>
+            </div>
+          </div>
+
+          <div class="rv-card rv-sw-card">
+            <h2 class="rv-card-title">Strengths & Weaknesses <span class="rv-info-btn"
+                title="Your best and most improvable skill areas">ⓘ</span></h2>
+            <div id="strengthsWrap" class="rv-sw-block"></div>
+            <div id="weaknessesWrap" class="rv-sw-block"></div>
+          </div>
+
+        </div>
+
+        <!-- ── Row 4: Gap Analysis + Project Breakdown ── -->
+        <div class="rv-lower-row">
+
+          <div class="rv-card rv-gap-card">
+            <h2 class="rv-card-title">Gap Analysis <span class="rv-info-btn"
+                title="How far you are from the top 20% benchmark on each dimension">ⓘ</span></h2>
+            <div id="gapTableWrap"></div>
+          </div>
+
+          <div class="rv-card rv-project-card">
+            <div class="rv-project-head">
+              <h2 class="rv-card-title">Project Breakdown <span class="rv-info-btn"
+                  title="AI evaluation of your portfolio across three specialist lenses">ⓘ</span></h2>
+              <a href="/skill-lab.html" class="rv-view-all">View All →</a>
+            </div>
+            <div id="projectListWrap"></div>
+          </div>
+
+        </div>
+
+        <!-- ── Row 5: Personalised Growth Plan ── -->
+        <div class="rv-card rv-growth-card">
+          <h2 class="rv-card-title">Your Personalised Growth Plan <span class="rv-info-btn"
+              title="Week-by-week path based on your gaps">ⓘ</span></h2>
+          <div id="growthTimelineWrap" class="rv-growth-timeline"></div>
+          <div class="rv-growth-footer">
+            <p id="growthTipText" class="rv-growth-tip"></p>
+            <a class="button primary" href="/skill-lab.html" id="startLearningBtn">Open Skill Lab →</a>
+          </div>
+        </div>
+
+        <!-- ── History ── -->
+        <div class="rv-card rv-history-card" id="historyCardEl">
+          <h2 class="rv-card-title">Assessment History</h2>
+          <div id="historyList" class="rv-history-grid"></div>
+        </div>
+
+      </div>
+    </div><!-- /rv-dashboard -->
+  </main>
+
+  <footer class="site-footer-thread" id="siteFooter">
+    <div class="shell">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-brand">
+            <div class="nav-monogram">TT</div>
+            <span class="nav-wordmark" style="color: var(--text-inv);">Thread</span>
+          </div>
+          <p>Where early-career design talent meets real opportunity.</p>
+        </div>
+        <div class="footer-col"><strong>Designers</strong><a href="/review.html">AI Analysis</a><a
+            href="/skill-lab.html">Skill Lab</a><a href="/marketplace.html">Browse Gigs</a></div>
+        <div class="footer-col"><strong>Clients</strong><a href="/hire.html">Post a Project</a><a
+            href="/how-it-works.html">How It Works</a></div>
+        <div class="footer-col"><strong>Platform</strong><a href="/">Home</a><a href="/profile.html">Dashboard</a></div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Talent Thread. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/tt-utils.js"></script>
+  <script type="module" src="/js/shared.js"></script>
+  <script src="/js/review.js"></script>
+  <script>
+    document.getElementById('mobileMenuBtn')?.addEventListener('click', () => document.getElementById('mainNav')?.classList.toggle('mobile-open'));
+    window.addEventListener('scroll', () => document.getElementById('siteHeader')?.classList.toggle('scrolled', window.scrollY > 10), { passive: true });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Applications — Talent Thread</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #eff6ff;
+            --surface: #ffffff;
+            --surface-2: #f8fafc;
+            --surface-3: #f1f5f9;
+            --ink: #0f172a;
+            --ink-2: #334155;
+            --ink-3: #64748b;
+            --border: #e2e8f0;
+            --success: #059669;
+            --success-bg: #ecfdf5;
+            --warning: #d97706;
+            --warning-bg: #fffbeb;
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+            --info: #0284c7;
+            --info-bg: #f0f9ff;
+            --radius: 12px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--surface-2); color: var(--ink); line-height: 1.5; }
+
+        nav {
+            position: sticky; top: 0; z-index: 100;
+            height: 60px; background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 24px;
+        }
+        .nav-left { display: flex; align-items: center; gap: 8px; font-weight: 700; cursor: pointer; }
+        .nav-left .tt { color: var(--primary); font-size: 20px; }
+        .nav-left .wordmark { color: var(--ink); font-size: 16px; }
+        .nav-center { display: flex; gap: 24px; }
+        .nav-center a { font-size: 14px; font-weight: 500; color: var(--ink-2); padding: 20px 0; border-bottom: 2px solid transparent; }
+        .nav-center a.active { color: var(--primary); border-bottom-color: var(--primary); }
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; cursor: pointer; }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
+        .header { margin-bottom: 32px; }
+        .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .header p { color: var(--ink-3); }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 40px; }
+        .stat-card { background: var(--surface); padding: 20px; border-radius: var(--radius); border: 1px solid var(--border); }
+        .stat-label { font-size: 12px; font-weight: 600; color: var(--ink-3); text-transform: uppercase; margin-bottom: 4px; }
+        .stat-value { font-size: 24px; font-weight: 700; }
+
+        .app-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 24px; overflow: hidden; box-shadow: var(--shadow); transition: transform 0.2s; }
+        .app-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        
+        .app-card-main { display: flex; padding: 24px; gap: 32px; }
+        .app-left { display: flex; gap: 20px; flex: 1.5; }
+        .client-avatar-large { width: 56px; height: 56px; border-radius: 12px; background: var(--surface-3); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; color: var(--primary); }
+        .company-name { font-size: 14px; font-weight: 600; color: var(--ink-3); }
+        .project-title { font-size: 18px; font-weight: 700; margin: 4px 0 12px; }
+        .project-meta { display: flex; gap: 12px; align-items: center; }
+        .chip { padding: 4px 12px; background: var(--primary-light); color: var(--primary); border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .budget-text { font-size: 13px; color: var(--ink-2); font-weight: 500; }
+
+        .app-center { flex: 2; border-left: 1px solid var(--border); border-right: 1px solid var(--border); padding: 0 32px; }
+        .proposal-snippet { font-size: 14px; margin-bottom: 16px; }
+        .proposal-snippet p { color: var(--ink-2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 4px; }
+        .proposal-stats { display: flex; gap: 20px; font-size: 13px; color: var(--ink-3); }
+        .proposal-stats strong { color: var(--ink); }
+
+        .app-right { flex: 0.8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+        .score-container { text-align: center; }
+        .score-ring { transform: rotate(-90deg); }
+        .ring-bg { fill: none; stroke: var(--surface-3); stroke-width: 4; }
+        .ring-fill { fill: none; stroke: var(--primary); stroke-width: 4; stroke-linecap: round; transition: stroke-dashoffset 1s ease-out; }
+        .ring-fill.high { stroke: var(--success); }
+        .ring-fill.mid { stroke: var(--warning); }
+        .ring-fill.low { stroke: var(--danger); }
+        .score-text { font-size: 14px; font-weight: 700; fill: var(--ink); transform: rotate(90deg); text-anchor: middle; }
+        .score-label { font-size: 11px; font-weight: 600; color: var(--ink-3); margin-top: 4px; display: block; }
+
+        .status-badge { padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; text-align: center; width: 100%; }
+        .status-applied { background: var(--info-bg); color: var(--info); }
+        .status-shortlisted { background: var(--warning-bg); color: var(--warning); }
+        .status-hired { background: var(--success-bg); color: var(--success); }
+        .status-rejected { background: var(--danger-bg); color: var(--danger); }
+
+        .app-card-footer { background: var(--surface-2); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); }
+        .app-timeline { display: flex; align-items: center; gap: 8px; }
+        .app-timeline .step { font-size: 11px; font-weight: 600; color: var(--ink-3); }
+        .app-timeline .step.reached { color: var(--primary); }
+        .app-timeline .line { width: 30px; height: 2px; background: var(--border); }
+        .app-timeline .line.reached { background: var(--primary); }
+
+        .app-actions { display: flex; gap: 16px; align-items: center; }
+        .btn-link { font-size: 13px; font-weight: 600; color: var(--primary); }
+        .btn-text-danger { background: none; border: none; font-size: 13px; font-weight: 600; color: var(--danger); cursor: pointer; }
+        .btn-success { background: var(--success); color: white; border: none; padding: 6px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+
+        .empty-state { text-align: center; padding: 80px 0; }
+        .toast-container { position: fixed; top: 24px; right: 24px; z-index: 1000; display: flex; flex-direction: column; gap: 12px; }
+        .toast { padding: 12px 24px; background: var(--surface); border-radius: var(--radius); box-shadow: var(--shadow-md); border-left: 4px solid var(--info); }
+
+        /* SKELETON */
+        .skeleton-card { background: var(--surface-3); border-radius: var(--radius); }
+        
+        .dropdown-menu { position: absolute; top: 50px; right: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-md); width: 220px; display: none; flex-direction: column; padding: 8px 0; z-index: 200; }
+        .dropdown-menu.show { display: flex; }
+        .dropdown-menu a, .dropdown-menu button { padding: 10px 16px; font-size: 14px; text-align: left; background: none; border: none; cursor: pointer; }
+        .dropdown-menu a:hover, .dropdown-menu button:hover { background: var(--surface-2); }
+        .logout-btn { color: var(--danger); font-weight: 600; }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-left" onclick="window.location.href='/'">
+            <span class="tt">TT</span>
+            <span class="wordmark">TalentThread</span>
+        </div>
+        <div class="nav-center"></div>
+        <div class="nav-right"></div>
+    </nav>
+
+    <div class="container">
+        <header class="header">
+            <h1>My Applications</h1>
+            <p>Track your proposals and response status in real-time.</p>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Sent</div>
+                <div class="stat-value" id="statTotal">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Shortlisted</div>
+                <div class="stat-value" id="statShortlisted" style="color:var(--warning)">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Hired</div>
+                <div class="stat-value" id="statHired" style="color:var(--success)">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Response Rate</div>
+                <div class="stat-value" id="responseRate">0%</div>
+            </div>
+        </div>
+
+        <div id="applicationsGrid">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script type="module" src="/js/applications.js"></script>
+</body>
+</html>

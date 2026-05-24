@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Post a project on Talent Thread and get matched with AI-verified designers in 48 hours. Clear briefs attract the best designers." />
+    <title>Talent Thread | Post a Project — Hire Verified Designers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/thread-ui.css" />
+    <link rel="stylesheet" href="/css/landing-v2.css" />
+  </head>
+  <body class="home-page">
+
+    <header class="site-header home-header" id="siteHeader">
+      <a class="brand" href="/"><img src="/assets/logos/tt-logo.png" alt="Talent Thread" class="brand-logo" /></a>
+      <nav class="site-nav home-nav" id="mainNav">
+        <a href="/">Home</a>
+        <a href="/marketplace.html">Marketplace</a>
+        <a href="/for-clients.html">For Clients</a>
+        <a href="/for-freelancers.html">For Designers</a>
+        <a href="/how-it-works.html">How It Works</a>
+        <a href="/skill-lab.html">Skill Lab</a>
+        <div class="nav-sep"></div>
+        <a href="/profile.html" class="nav-logged-in">Dashboard</a>
+        <a href="/login.html" class="nav-login-link nav-logged-out">Log In</a>
+        <a href="/hire.html" class="nav-cta-btn nav-logged-out active">Post a Project →</a>
+        <a href="/profile.html" class="nav-cta-btn nav-logged-in">Dashboard →</a>
+      </nav>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <main class="hire-main">
+
+      <div class="hire-layout shell">
+
+        <!-- LEFT: Form -->
+        <div class="hire-form-col">
+          <div class="hire-form-header">
+            <p class="eyebrow">Post a Project</p>
+            <h1>Find your next designer</h1>
+            <p class="hire-form-sub">Write a clear brief — great briefs attract better designers. Get your first verified matches in 48 hours.</p>
+          </div>
+
+          <form class="hire-form" id="hireForm" novalidate>
+
+            <!-- Step 1: Project basics -->
+            <div class="hire-step" id="hireStep1">
+              <div class="hire-step-label">
+                <span class="hire-step-num">01</span>
+                <strong>Project Basics</strong>
+              </div>
+
+              <div class="hire-field">
+                <label for="hireTitle">
+                  <span>Project Title <span class="required-mark">*</span></span>
+                  <input id="hireTitle" name="title" type="text" placeholder="e.g. Product Designer for B2B SaaS Dashboard" required />
+                </label>
+              </div>
+
+              <div class="hire-field">
+                <label for="hireDiscipline">
+                  <span>Design Discipline <span class="required-mark">*</span></span>
+                  <select id="hireDiscipline" name="discipline" required>
+                    <option value="">Select a discipline…</option>
+                    <option value="uiux">UI/UX Design</option>
+                    <option value="product">Product Design</option>
+                    <option value="brand">Brand Design</option>
+                    <option value="motion">Motion Design</option>
+                    <option value="graphic">Graphic Design</option>
+                    <option value="illustration">Illustration</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="hire-field">
+                <label for="hireSummary">
+                  <span>Project Description <span class="required-mark">*</span></span>
+                  <textarea id="hireSummary" name="summary" rows="4" placeholder="Describe the scope, goals, target audience, and what success looks like for this project…" required></textarea>
+                </label>
+              </div>
+            </div>
+
+            <!-- Step 2: Budget & timeline -->
+            <div class="hire-step" id="hireStep2">
+              <div class="hire-step-label">
+                <span class="hire-step-num">02</span>
+                <strong>Budget & Timeline</strong>
+              </div>
+
+              <div class="hire-row">
+                <div class="hire-field">
+                  <label for="hireBudget">
+                    <span>Budget Range <span class="required-mark">*</span></span>
+                    <select id="hireBudget" name="budget" required>
+                      <option value="">Select budget…</option>
+                      <option value="under-25k">Under ₹25,000</option>
+                      <option value="25-50k">₹25,000 – ₹50,000</option>
+                      <option value="50-100k">₹50,000 – ₹1,00,000</option>
+                      <option value="100k-plus">₹1,00,000+</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="hire-field">
+                  <label for="hireDuration">
+                    <span>Project Duration <span class="required-mark">*</span></span>
+                    <select id="hireDuration" name="duration" required>
+                      <option value="">Select duration…</option>
+                      <option value="1-week">Under 1 week</option>
+                      <option value="1-2-weeks">1–2 weeks</option>
+                      <option value="1-month">2–4 weeks</option>
+                      <option value="1-2-months">1–2 months</option>
+                      <option value="2-plus-months">2+ months</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+
+              <div class="hire-row">
+                <div class="hire-field">
+                  <label for="hireMode">
+                    <span>Work Mode</span>
+                    <select id="hireMode" name="mode">
+                      <option value="remote">Remote</option>
+                      <option value="hybrid">Hybrid</option>
+                      <option value="onsite">On-site</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="hire-field">
+                  <label for="hireUrgency">
+                    <span>Start Date</span>
+                    <select id="hireUrgency" name="urgency">
+                      <option value="asap">ASAP</option>
+                      <option value="1-week">Within 1 week</option>
+                      <option value="2-weeks">Within 2 weeks</option>
+                      <option value="1-month">Within a month</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Requirements -->
+            <div class="hire-step" id="hireStep3">
+              <div class="hire-step-label">
+                <span class="hire-step-num">03</span>
+                <strong>Requirements</strong>
+              </div>
+
+              <div class="hire-field">
+                <label for="hireSkills">
+                  <span>Required Skills</span>
+                  <input id="hireSkills" name="skills" type="text" placeholder="e.g. Figma, prototyping, design systems, data visualization" />
+                </label>
+              </div>
+
+              <div class="hire-field">
+                <label for="hireMinScore">
+                  <span>Minimum AI Score <span class="hire-field-hint">(0–100, optional)</span></span>
+                  <select id="hireMinScore" name="minScore">
+                    <option value="0">No minimum</option>
+                    <option value="60">60+ (Strong)</option>
+                    <option value="70">70+ (Advanced)</option>
+                    <option value="80">80+ (Expert)</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="hire-field">
+                <label for="hireCompany">
+                  <span>Company / Studio Name</span>
+                  <input id="hireCompany" name="company" type="text" placeholder="e.g. Nexus Labs" />
+                </label>
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="hire-submit-row">
+              <button type="submit" class="home-btn-primary button hire-submit-btn" id="hireSubmitBtn">
+                Post Project &amp; Find Designers →
+              </button>
+              <p class="hire-form-note">Free to post · We match you in 48 hours</p>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- RIGHT: Info sidebar -->
+        <div class="hire-sidebar">
+
+          <div class="hire-sidebar-card">
+            <h3>What happens next?</h3>
+            <div class="hire-next-steps">
+              <div class="hire-next-step">
+                <div class="hire-next-dot" style="background:var(--cta);"></div>
+                <div>
+                  <strong>Brief goes live</strong>
+                  <p>Your project is immediately visible to our AI matching system.</p>
+                </div>
+              </div>
+              <div class="hire-next-step">
+                <div class="hire-next-dot" style="background:#6366f1;"></div>
+                <div>
+                  <strong>Matches in 48hrs</strong>
+                  <p>Verified designers whose scores meet your requirements can apply.</p>
+                </div>
+              </div>
+              <div class="hire-next-step">
+                <div class="hire-next-dot" style="background:#10b981;"></div>
+                <div>
+                  <strong>Review score cards</strong>
+                  <p>See each applicant's AI dimension breakdown, portfolio, and growth track.</p>
+                </div>
+              </div>
+              <div class="hire-next-step">
+                <div class="hire-next-dot" style="background:#f59e0b;"></div>
+                <div>
+                  <strong>Hire with confidence</strong>
+                  <p>Start with a risk-free trial. We'll replace at no cost if it doesn't fit.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trust signals -->
+          <div class="hire-sidebar-trust">
+            <p class="hire-trust-label">Trusted by</p>
+            <div class="hire-trust-logos">
+              <span>Nexus Labs</span>
+              <span>Finova</span>
+              <span>Brandkit Co.</span>
+              <span>HealthQ</span>
+              <span>Alterra</span>
+              <span>MintFlow</span>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="hire-sidebar-stats">
+            <div class="hire-sidebar-stat">
+              <strong>500+</strong>
+              <p>Verified designers</p>
+            </div>
+            <div class="hire-sidebar-stat">
+              <strong>48hrs</strong>
+              <p>Avg. first match</p>
+            </div>
+            <div class="hire-sidebar-stat">
+              <strong>98%</strong>
+              <p>Match satisfaction</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="mega-footer" style="margin-top:4rem;">
+      <div class="shell">
+        <div class="mega-footer-grid">
+          <div class="mega-footer-brand">
+            <img src="/assets/logos/tt-logo.png" alt="Talent Thread" class="footer-logo" />
+            <p>Where early-career design talent meets real opportunity.</p>
+          </div>
+          <div class="mega-footer-col"><strong>Platform</strong><a href="/marketplace.html">Marketplace</a><a href="/review.html">AI Analysis</a></div>
+          <div class="mega-footer-col"><strong>For Clients</strong><a href="/for-clients.html">Why TT</a><a href="/how-it-works.html">How It Works</a></div>
+          <div class="mega-footer-col"><strong>Company</strong><a href="#">About</a><a href="#">Privacy</a></div>
+        </div>
+      </div>
+      <div class="mega-footer-bottom shell">
+        <p>© 2025 Talent Thread. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="/js/shared.js"></script>
+    <script>
+      document.getElementById('mobileMenuBtn')?.addEventListener('click',()=>document.getElementById('mainNav')?.classList.toggle('mobile-open'));
+      window.addEventListener('scroll',()=>document.getElementById('siteHeader')?.classList.toggle('scrolled',window.scrollY>10),{passive:true});
+      document.getElementById('hireForm')?.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('hireSubmitBtn');
+        btn.textContent = 'Posting…';
+        btn.disabled = true;
+        setTimeout(() => window.location.href = '/marketplace.html', 1200);
+      });
+    </script>
+  </body>
+</html>
+
+

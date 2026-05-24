@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Complete your Talent Thread profile setup." />
+    <title>Talent Thread | Onboarding</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/thread-ui.css" />
+    <link rel="stylesheet" href="/css/auth-v2.css" />
+  </head>
+  <body>
+
+    <header class="shell site-header">
+      <a class="brand" href="/"><img src="/assets/logos/tt-logo.png" alt="Talent Thread" class="brand-logo" /></a>
+    </header>
+
+    <main class="shell page-layout" style="margin-top: var(--space-8); max-width: 40rem;">
+      <section id="loadingState">
+        <p>Loading your profile...</p>
+      </section>
+
+      <!-- Designer Onboarding -->
+      <form id="designerOnboarding" class="stack-form hidden" onsubmit="event.preventDefault(); nextDesignerStep();" novalidate>
+        <div class="stepper-nav" id="designerStepper">
+          <div class="stepper-step active" id="dStep1"></div>
+          <div class="stepper-step" id="dStep2"></div>
+          <div class="stepper-step" id="dStep3"></div>
+          <div class="stepper-step" id="dStep4"></div>
+        </div>
+
+        <!-- Step 1: Basic Info -->
+        <article class="auth-card" id="designerStep1">
+          <h2>Basic Info</h2>
+          <p class="hero-text">Let's start with your identity on the platform.</p>
+          <div class="stack-form" style="margin-top: var(--space-4);">
+            <label><span>Full Name <span class="required-mark">*</span></span><input name="name" type="text" id="dName" required /></label>
+            <label><span>Tagline</span><input name="tagline" type="text" placeholder="e.g. Senior UI/UX Designer" /></label>
+            <label><span>Location</span><input name="location" type="text" placeholder="e.g. Remote, India" /></label>
+            <div class="input-grid two-up">
+              <label><span>Experience <span class="required-mark">*</span></span><select name="experience"><option value="graduate">Fresh graduate</option><option value="student">Design student</option><option value="self_taught">Self-taught beginner</option><option value="early_career">1-2 years experience</option></select></label>
+              <label><span>Completed Projects <span class="required-mark">*</span></span><input name="projectCount" type="number" min="0" max="20" value="3" required /></label>
+            </div>
+            <div class="hero-actions">
+              <button class="button primary" type="submit">Continue</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Step 2: Skills and Tools -->
+        <article class="auth-card hidden" id="designerStep2">
+          <h2>Skills & Tools</h2>
+          <p class="hero-text">What are your core competencies?</p>
+          <div class="stack-form" style="margin-top: var(--space-4);">
+            <label><span>Target Discipline <span class="required-mark">*</span></span>
+              <select name="discipline">
+                <option value="uiux">UI/UX Design</option>
+                <option value="graphic">Graphic Design</option>
+                <option value="brand">Brand Design</option>
+                <option value="motion">Motion Design</option>
+                <option value="product">Product Design</option>
+              </select>
+            </label>
+            <label><span>Core Tools <span class="required-mark">*</span></span><input name="tools" type="text" placeholder="Figma, Photoshop, Illustrator" /></label>
+            
+            <fieldset class="goal-fieldset">
+              <legend>Self-Evaluation (1-10)</legend>
+              <div class="skill-grid">
+                <label class="range-field"><span>Visual craft</span><div><input name="visualCraft" type="range" min="1" max="10" value="6" /><output>6</output></div></label>
+                <label class="range-field"><span>Problem solving</span><div><input name="problemSolving" type="range" min="1" max="10" value="6" /><output>6</output></div></label>
+                <label class="range-field"><span>Portfolio storytelling</span><div><input name="portfolioStorytelling" type="range" min="1" max="10" value="5" /><output>5</output></div></label>
+                <label class="range-field"><span>Tool fluency</span><div><input name="toolFluency" type="range" min="1" max="10" value="6" /><output>6</output></div></label>
+                <label class="range-field"><span>Communication</span><div><input name="communication" type="range" min="1" max="10" value="5" /><output>5</output></div></label>
+                <label class="range-field"><span>Freelance readiness</span><div><input name="freelanceReadiness" type="range" min="1" max="10" value="4" /><output>4</output></div></label>
+              </div>
+            </fieldset>
+            <div class="hero-actions">
+              <button class="button secondary" type="button" onclick="prevDesignerStep()">Back</button>
+              <button class="button primary" type="button" onclick="nextDesignerStep()">Continue</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Step 3: Portfolio Links -->
+        <article class="auth-card hidden" id="designerStep3">
+          <h2>Portfolio Links</h2>
+          <p class="hero-text">Show clients proof of your skills.</p>
+          <div class="stack-form" style="margin-top: var(--space-4);">
+            <label><span>Personal Site / Portfolio URL <span class="required-mark">*</span></span><input name="portfolioLink" type="url" placeholder="https://" /></label>
+            <label><span>Challenge style preference</span><select name="challengePreference"><option value="weekly_project">Weekly Project</option><option value="client_simulation">Client Simulation</option><option value="timed_sprint">Timed Sprint</option><option value="level_mission">Level Mission</option></select></label>
+            <fieldset class="goal-fieldset">
+              <legend>Primary goals</legend>
+              <label class="check-chip"><input type="checkbox" name="goals" value="portfolio" checked />Sharpen portfolio</label>
+              <label class="check-chip"><input type="checkbox" name="goals" value="interviews" />Interview-ready</label>
+              <label class="check-chip"><input type="checkbox" name="goals" value="freelance" />Freelance-ready</label>
+              <label class="check-chip"><input type="checkbox" name="goals" value="confidence" />Build confidence</label>
+            </fieldset>
+            <label><span>Context/Notes (Optional)</span><textarea name="notes" rows="2"></textarea></label>
+            <div class="hero-actions">
+              <button class="button secondary" type="button" onclick="prevDesignerStep()">Back</button>
+              <button class="button primary" type="submit">Continue</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Step 4: Summary -->
+        <article class="auth-card hidden" id="designerStep4">
+          <h2>Ready to go.</h2>
+          <p class="hero-text">You're all set up. Once you proceed, you can analyze your first portfolio or browse challenges.</p>
+          <div class="hero-actions" style="margin-top: var(--space-4);">
+            <button class="button secondary" type="button" onclick="prevDesignerStep()">Back</button>
+            <button class="button primary" id="generateReviewBtn" type="button" onclick="finishDesignerOnboarding()">Analyze Your Portfolio</button>
+          </div>
+        </article>
+      </form>
+
+      <!-- Client Onboarding -->
+      <form id="clientOnboarding" class="stack-form hidden" onsubmit="event.preventDefault(); finishOnboarding('client');">
+        <article class="auth-card">
+          <h2>Client Profile</h2>
+          <p class="hero-text">Tell us about your company and hiring needs.</p>
+          <div class="stack-form" style="margin-top: var(--space-4);">
+            <label><span>Company Name <span class="required-mark">*</span></span><input name="company" type="text" required /></label>
+            <label><span>Industry <span class="required-mark">*</span></span><input name="industry" type="text" required /></label>
+            <label><span>Website</span><input name="website" type="url" placeholder="https://" /></label>
+            
+            <fieldset class="goal-fieldset">
+              <legend>Typical Budget Range <span class="required-mark">*</span></legend>
+              <select name="budget" required>
+                <option value="" disabled selected>Select a range</option>
+                <option value="<$1k">Under $1k</option>
+                <option value="$1k-$5k">$1k - $5k</option>
+                <option value="$5k-$15k">$5k - $15k</option>
+                <option value="$15k+">$15k+</option>
+              </select>
+            </fieldset>
+
+            <fieldset class="goal-fieldset">
+              <legend>Design Categories Needed (Select all that apply) <span class="required-mark">*</span></legend>
+              <label class="check-chip"><input type="checkbox" name="clientNeeds" value="UI/UX" /> UI/UX</label>
+              <label class="check-chip"><input type="checkbox" name="clientNeeds" value="Branding" /> Branding</label>
+              <label class="check-chip"><input type="checkbox" name="clientNeeds" value="Motion" /> Motion</label>
+            </fieldset>
+
+            <div class="hero-actions">
+              <button class="button primary" type="submit">Post Your First Job</button>
+            </div>
+          </div>
+        </article>
+      </form>
+    </main>
+
+    <footer class="shell site-footer">
+      <img src="/assets/logos/tt-logo.png" alt="Talent Thread" class="footer-logo" />
+      <p>Account setup.</p>
+    </footer>
+
+    <script src="/js/shared.js"></script>
+    <script src="/js/onboarding.js"></script>
+  </body>
+</html>
+
+

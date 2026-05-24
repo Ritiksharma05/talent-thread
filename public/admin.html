@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talent Thread Admin | Professional Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --surface: #ffffff;
+            --surface-2: #f8fafc;
+            --surface-3: #f1f5f9;
+            --ink: #0f172a;
+            --ink-2: #334155;
+            --ink-3: #64748b;
+            --border: #e2e8f0;
+            --success: #059669;
+            --success-bg: #ecfdf5;
+            --warning: #d97706;
+            --warning-bg: #fffbeb;
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+            --info: #0284c7;
+            --info-bg: #f0f9ff;
+            --radius: 8px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --sidebar-width: 240px;
+            --header-height: 60px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--surface-2);
+            color: var(--ink-2);
+            overflow-x: hidden;
+            visibility: hidden; /* Critical Auth Fix */
+        }
+
+        /* Sidebar Navigation */
+        aside.sidebar {
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            width: var(--sidebar-width);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .sidebar-header { padding: 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
+        .monogram { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; }
+        .sidebar-header h2 { font-size: 18px; font-weight: 700; color: var(--ink); }
+
+        .admin-profile { padding: 16px 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
+        .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--surface-3); display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--primary); flex-shrink: 0; }
+        .badge-role { font-size: 11px; background: var(--info-bg); color: var(--info); padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+
+        nav.sidebar-nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
+        .nav-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; color: var(--ink-2); font-size: 14px; font-weight: 500; border-radius: 6px; transition: 0.2s; cursor: pointer; border: none; background: transparent; width: 100%; text-align: left; }
+        .nav-item:hover { background: var(--surface-3); color: var(--primary); }
+        .nav-item.active { background: var(--info-bg); color: var(--primary); }
+        .nav-item svg { width: 18px; height: 18px; }
+        .nav-badge { margin-left: auto; font-size: 11px; padding: 2px 6px; border-radius: 999px; font-weight: 600; background: var(--surface-3); color: var(--ink-3); }
+        .nav-badge.danger { background: var(--danger); color: white; }
+
+        .sidebar-footer { padding: 16px; border-top: 1px solid var(--border); }
+        .logout-btn { display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 12px; background: transparent; border: 1px solid var(--border); border-radius: 6px; color: var(--danger); font-weight: 500; font-size: 13px; cursor: pointer; }
+
+        /* Main Content area */
+        main.main-content { margin-left: var(--sidebar-width); width: calc(100vw - var(--sidebar-width)); }
+        .top-bar { height: var(--header-height); background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 900; }
+        .section-path { font-size: 14px; color: var(--ink-3); font-weight: 500; }
+        .content-body { padding: 32px; max-width: 1400px; margin: 0 auto; }
+
+        /* Modules & Components */
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 24px; }
+        .metric-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin-bottom: 32px; }
+        .metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 8px; box-shadow: var(--shadow); }
+        .metric-label { font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+        .metric-value { font-size: 24px; font-weight: 700; color: var(--ink); }
+        .metric-card.alert { border-color: var(--danger); background: var(--danger-bg); }
+        .metric-card.alert .metric-value { color: var(--danger); }
+
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-bottom: 32px; }
+        .kpi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+        .kpi-header { display: flex; justify-content: space-between; margin-bottom: 12px; }
+        .kpi-title { font-size: 13px; font-weight: 600; color: var(--ink-2); }
+        .kpi-target { font-size: 11px; color: var(--ink-3); font-weight: 500; }
+        .progress-container { height: 8px; background: var(--surface-3); border-radius: 4px; overflow: hidden; margin-top: 8px; }
+        .progress-bar { height: 100%; transition: width 0.6s ease; }
+        .progress-bar.success { background: var(--success); }
+        .progress-bar.warning { background: var(--warning); }
+        .progress-bar.danger { background: var(--danger); }
+
+        /* Tables and Lists */
+        .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; background: white; }
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        thead th { background: var(--surface-3); padding: 12px 16px; text-align: left; font-size: 11px; color: var(--ink-3); text-transform: uppercase; font-weight: 600; border-bottom: 1px solid var(--border); }
+        tbody tr { border-bottom: 1px solid var(--border); }
+        tbody tr:hover { background: var(--surface-2); }
+        tbody td { padding: 14px 16px; font-size: 14px; color: var(--ink-2); }
+
+        .badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+        .bg-success { background: var(--success-bg); color: var(--success); }
+        .bg-info { background: var(--info-bg); color: var(--info); }
+        .bg-warning { background: var(--warning-bg); color: var(--warning); }
+        .bg-danger { background: var(--danger-bg); color: var(--danger); }
+        .bg-neutral { background: var(--surface-3); color: var(--ink-3); }
+
+        /* Slide-over UI */
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 2000; display: none; }
+        .slide-over { position: fixed; right: 0; top: 0; bottom: 0; width: 480px; background: white; z-index: 2001; transform: translateX(100%); transition: transform 0.3s; display: flex; flex-direction: column; box-shadow: -4px 0 24px rgba(0,0,0,0.12); }
+        .slide-over.active { transform: translateX(0); }
+        .slide-header { padding: 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .slide-body { flex: 1; overflow-y: auto; padding: 24px; }
+        .slide-footer { padding: 24px; border-top: 1px solid var(--border); background: var(--surface-2); display: flex; gap: 12px; }
+
+        /* Toasts */
+        .toast-container { position: fixed; top: 16px; right: 16px; z-index: 3000; display: flex; flex-direction: column; gap: 8px; }
+        .toast { background: white; padding: 14px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 4px solid var(--primary); display: flex; align-items: center; gap: 12px; min-width: 280px; animation: slideIn 0.3s forwards; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+        /* Skeleton Animation */
+        .skeleton { background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); background-size: 200% 100%; animation: shim 1.5s infinite; border-radius: 4px; }
+        @keyframes shim { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-12 { gap: 12px; }
+        .m-t-24 { margin-top: 24px; }
+        .m-b-24 { margin-bottom: 24px; }
+    </style>
+</head>
+<body>
+
+    <div class="admin-layout flex">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="monogram">TT</div>
+                <h2>Admin</h2>
+            </div>
+            <div class="admin-profile">
+                <div class="avatar" id="adminAvatar">AD</div>
+                <div class="admin-info">
+                    <p id="adminFullName" style="font-weight: 600; font-size: 14px;">Loading...</p>
+                    <span class="badge-role">Super Admin</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-section="overview">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Overview
+                </button>
+                <button class="nav-item" data-section="users">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    Users <span class="nav-badge" id="badge-total-users">0</span>
+                </button>
+                <button class="nav-item" data-section="jobs">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                    Jobs <span class="nav-badge" id="badge-open-jobs">0</span>
+                </button>
+                <button class="nav-item" data-section="disputes">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7h-9m3 3H2m13 1h6m-9-3l3-3 3 3m-9 10l-3-3 3-3"/></svg>
+                    Disputes <span class="nav-badge danger" id="badge-open-disputes">0</span>
+                </button>
+                <button class="nav-item" data-section="contracts">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg>
+                    Contracts
+                </button>
+                <button class="nav-item" data-section="payments">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                    Payments
+                </button>
+                <button class="nav-item" data-section="reports">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    AI Reports
+                </button>
+                <button class="nav-item m-t-24" data-section="settings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.83"/></svg>
+                    Settings
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="sidebarLogout">Logout</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="section-path">Admin / <span id="currentSectionTitle">Overview</span></div>
+                <div id="adminUserEmail" style="font-size: 12px; color: var(--ink-3)">...</div>
+            </header>
+
+            <div class="content-body">
+                <!-- MODULE 1: OVERVIEW -->
+                <section id="section-overview">
+                    <div class="metric-grid">
+                        <div class="metric-card"><span class="metric-label">Total Users</span><div class="metric-value" id="stat-total-users">...</div></div>
+                        <div class="metric-card"><span class="metric-label">Designers</span><div class="metric-value" id="stat-total-designers">...</div></div>
+                        <div class="metric-card"><span class="metric-label">Clients</span><div class="metric-value" id="stat-total-clients">...</div></div>
+                        <div class="metric-card"><span class="metric-label">Open Projects</span><div class="metric-value" id="stat-open-projects">...</div></div>
+                        <div class="metric-card"><span class="metric-label">Active Contracts</span><div class="metric-value" id="stat-active-contracts">...</div></div>
+                        <div class="metric-card" id="dispute-alert-card"><span class="metric-label">Open Disputes</span><div class="metric-value" id="stat-open-disputes">...</div></div>
+                        <div class="metric-card"><span class="metric-label">Total GMV</span><div class="metric-value" id="stat-total-gmv">...</div></div>
+                        <div class="metric-card"><span class="metric-label">Est. MRR</span><div class="metric-value" id="stat-est-mrr">...</div></div>
+                    </div>
+
+                    <div class="kpi-grid">
+                        <div class="kpi-card"><div class="kpi-header"><span class="kpi-title">Activation Rate</span><span class="kpi-target">Target >70%</span></div><div id="kpi-val-activation">0%</div><div class="progress-container"><div class="progress-bar" id="kpi-bar-activation"></div></div></div>
+                        <div class="kpi-card"><div class="kpi-header"><span class="kpi-title">AI Usage Rate</span><span class="kpi-target">Target >75%</span></div><div id="kpi-val-ai">0%</div><div class="progress-container"><div class="progress-bar" id="kpi-bar-ai"></div></div></div>
+                        <div class="kpi-card"><div class="kpi-header"><span class="kpi-title">Completion Rate</span><span class="kpi-target">Target >75%</span></div><div id="kpi-val-contracts">0%</div><div class="progress-container"><div class="progress-bar" id="kpi-bar-contracts"></div></div></div>
+                        <div class="kpi-card"><div class="kpi-header"><span class="kpi-title">Dispute Rate</span><span class="kpi-target">Target <3%</span></div><div id="kpi-val-dispute-rate">0%</div><div class="progress-container"><div class="progress-bar" id="kpi-bar-dispute-rate"></div></div></div>
+                        <div class="kpi-card"><div class="kpi-header"><span class="kpi-title">Pro Churn Rate</span><span class="kpi-target">Target <8%</span></div><div>N/A</div><div class="progress-container"><div class="progress-bar" style="width:0%; background:var(--border)"></div></div></div>
+                        <div class="kpi-card"><div class="kpi-header"><span class="kpi-title">Avg Contract Value</span><span class="kpi-target">Target ₹8,000</span></div><div id="kpi-val-acv">₹0</div><div class="progress-container"><div class="progress-bar" id="kpi-bar-acv"></div></div></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="flex items-center justify-between m-b-24"><h3 class="kpi-title">Recent Signups</h3><button class="btn btn-secondary btn-sm" onclick="app.navigate('users')">View All</button></div>
+                        <div class="table-wrap">
+                            <table><thead><tr><th>User</th><th>Email</th><th>Role</th><th>Plan</th><th>Joined</th></tr></thead><tbody id="recentUsersTable"></tbody></table>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="kpi-title m-b-24">Platform Health</h3>
+                        <div class="metric-grid">
+                            <div class="metric-card"><span class="metric-label">Analysed Designers</span><div class="metric-value" id="health-ai-count">0</div></div>
+                            <div class="metric-card"><span class="metric-label">Avg AI Score</span><div class="metric-value text-primary" id="health-ai-avg">0</div></div>
+                            <div class="metric-card"><span class="metric-label">Notifications Sent</span><div class="metric-value" id="health-notif-count">0</div></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- MODULE 2: USERS -->
+                <section id="section-users" class="hidden">
+                    <div class="card flex items-center gap-12">
+                        <input type="text" id="userSearch" placeholder="Search by name or email..." style="flex:1; padding:10px; border:1px solid var(--border); border-radius:6px;">
+                        <select id="userRoleFilter" style="padding:10px; border:1px solid var(--border); border-radius:6px;"><option value="all">All Roles</option><option value="designer">Designer</option><option value="client">Client</option></select>
+                        <select id="userPlanFilter" style="padding:10px; border:1px solid var(--border); border-radius:6px;"><option value="all">All Plans</option><option value="free">Free</option><option value="pro">Pro</option></select>
+                    </div>
+                    <div class="table-wrap">
+                        <table><thead><tr><th>#</th><th>User</th><th>Email</th><th>Role</th><th>Plan</th><th>Joined</th><th>Actions</th></tr></thead><tbody id="usersTableBody"></tbody></table>
+                    </div>
+                    <div class="flex justify-between m-t-24"><button class="btn btn-secondary" id="pagePrev" disabled>Previous</button><button class="btn btn-secondary" id="pageNext">Next</button></div>
+                </section>
+
+                <!-- MODULE 3: JOBS -->
+                <section id="section-jobs" class="hidden">
+                    <div class="card flex items-center gap-12"><select id="jobStatusFilter" style="padding:10px; border:1px solid var(--border); border-radius:6px;"><option value="all">All Status</option><option value="open">Open</option><option value="closed">Closed</option></select></div>
+                    <div class="table-wrap">
+                        <table id="jobsTable"><thead><tr><th>Title</th><th>Client</th><th>Disc</th><th>Budget</th><th>Apps</th><th>Status</th><th>Posted</th><th>Actions</th></tr></thead><tbody></tbody></table>
+                    </div>
+                </section>
+
+                <!-- MODULE 4: DISPUTES -->
+                <section id="section-disputes" class="hidden">
+                    <div class="card hidden" id="disputeBanner" style="background:var(--warning-bg); border-color:var(--warning); color:var(--warning); font-weight:600;">⚠ <span id="disputeCountBanner">0</span> disputes require resolution within 48 hours</div>
+                    <div class="table-wrap">
+                        <table><thead><tr><th>#</th><th>Contract</th><th>Designer</th><th>Client</th><th>Reason</th><th>Value</th><th>Age</th><th>Status</th><th>Resolve</th></tr></thead><tbody id="disputesTableBody"></tbody></table>
+                    </div>
+                </section>
+
+                <!-- MODULE 5: CONTRACTS & PAYMENTS -->
+                <section id="section-contracts" class="hidden">
+                    <div class="flex gap-12 m-b-24">
+                        <button class="btn btn-secondary active" id="tabContracts" onclick="modules.finance.switchSub('contracts')">Contracts</button>
+                        <button class="btn btn-secondary" id="tabPayments" onclick="modules.finance.switchSub('payments')">Payments</button>
+                    </div>
+                    <div id="contractsContent" class="table-wrap"><table><thead><tr><th>Title</th><th>Designer</th><th>Client</th><th>Value</th><th>Status</th><th>Created</th><th>View</th></tr></thead><tbody id="contractTableBody"></tbody></table></div>
+                    <div id="paymentsContent" class="hidden">
+                        <div class="metric-grid" id="paymentStats">
+                            <div class="metric-card"><span class="metric-label">Total Collected</span><div class="metric-value" id="stat-pay-coll">₹0</div></div>
+                            <div class="metric-card"><span class="metric-label">In Escrow</span><div class="metric-value color-info" id="stat-pay-escrow">₹0</div></div>
+                            <div class="metric-card"><span class="metric-label">Released</span><div class="metric-value text-success" id="stat-pay-rel">₹0</div></div>
+                            <div class="metric-card"><span class="metric-label">Commission (10%)</span><div class="metric-value" id="stat-pay-comm" style="color:var(--primary)">₹0</div></div>
+                        </div>
+                        <div class="table-wrap"><table><thead><tr><th>Contract</th><th>Designer</th><th>Client</th><th>Amount</th><th>Status</th><th>Via</th><th>Date</th></tr></thead><tbody id="paymentTableBody"></tbody></table></div>
+                    </div>
+                </section>
+
+                <!-- MODULE 6: AI REPORTS -->
+                <section id="section-reports" class="hidden">
+                    <div class="metric-grid">
+                        <div class="metric-card"><span class="metric-label">Total Analyses</span><div class="metric-value" id="ai-stat-total">0</div></div>
+                        <div class="metric-card"><span class="metric-label">Unique Designers</span><div class="metric-value" id="ai-stat-unique">0</div></div>
+                        <div class="metric-card"><span class="metric-label">Avg AI Score</span><div class="metric-value text-primary" id="ai-stat-avg">0</div></div>
+                        <div class="metric-card"><span class="metric-label">At Free Limit (3+)</span><div class="metric-value color-danger" id="ai-stat-limit">0</div></div>
+                    </div>
+                    <div class="card">
+                        <h3 class="kpi-title m-b-24">Score Band Distribution</h3>
+                        <div id="aiBandDistribution" class="flex flex-col gap-12"></div>
+                    </div>
+                    <div class="card"><h3 class="kpi-title m-b-24">Recent Analyses</h3><div class="table-wrap"><table><thead><tr><th>Designer</th><th>Score</th><th>Band</th><th>Disc</th><th>Date</th></tr></thead><tbody id="aiAnalysisTable"></tbody></table></div></div>
+                </section>
+
+                <!-- MODULE 7: SETTINGS -->
+                <section id="section-settings" class="hidden">
+                    <div class="card" style="max-width: 800px;">
+                        <h3 class="kpi-title m-b-24">Platform Config</h3>
+                        <form id="settingsForm">
+                            <div class="metric-grid" style="grid-template-columns: 1fr 1fr;">
+                                <div><label class="metric-label">Commission (%)</label><input type="number" name="commission_rate" value="10" style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px;"></div>
+                                <div><label class="metric-label">Free AI Quota</label><input type="number" name="free_ai_analyses" value="3" style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px;"></div>
+                                <div><label class="metric-label">Pro Price (₹)</label><input type="number" name="pro_price" value="499" style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px;"></div>
+                                <div><label class="metric-label">Escrow Window (Days)</label><input type="number" name="escrow_window" value="5" style="width:100%; border:1px solid var(--border); padding:8px; border-radius:4px;"></div>
+                            </div>
+                            <button type="submit" class="btn btn-primary m-t-24">Save Settings</button>
+                        </form>
+                    </div>
+                    <div class="card" style="max-width: 800px; border-color:var(--danger); background:var(--danger-bg)">
+                        <h3 class="kpi-title" style="color:var(--danger)">Danger Zone</h3><p class="m-t-24">Irreversible administrative actions.</p>
+                        <div class="flex gap-12 m-t-24"><button class="btn btn-danger" onclick="app.resetData()">Reset Demo Data</button><button class="btn btn-secondary" onclick="app.exportUsers()">Export CSV</button></div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals & Overlays -->
+    <div class="overlay" id="globalOverlay"></div>
+    <div class="slide-over" id="mainSlideOver">
+        <div class="slide-header"><h3 id="slideTitle">Details</h3><button onclick="app.closeSlide()" style="background:none; border:none; font-size:20px; cursor:pointer;">✕</button></div>
+        <div class="slide-body" id="slideBody"></div>
+        <div class="slide-footer" id="slideFooter"></div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script type="module" src="/js/admin.js" defer></script>
+</body>
+</html>

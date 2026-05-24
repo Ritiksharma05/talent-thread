@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Talent Thread Skill Lab — Complete AI-assigned challenges, submit your designs, earn XP and badges, and unlock marketplace access." />
+  <title>Talent Thread | Skill Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/thread-ui.css" />
+  <link rel="stylesheet" href="/css/platform-v2.css" />
+  <link rel="stylesheet" href="/css/platform.css" />
+</head>
+<body class="sl-page">
+
+  <nav class="site-nav-thread" id="siteHeader">
+    <a class="nav-brand" href="/">
+      <img src="/assets/logos/tt-logo.png" alt="Talent Thread" class="nav-brand-logo" />
+    </a>
+    <div class="nav-links" id="mainNav">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/marketplace.html" class="nav-link">Marketplace</a>
+      <a href="/review.html" class="nav-link">AI Analysis</a>
+      <a href="/skill-lab.html" class="nav-link active">Skill Lab</a>
+      <a href="/profile.html" class="nav-link nav-logged-in">Dashboard</a>
+      <div class="mobile-only">
+        <a href="/login.html" class="nav-link nav-logged-out">Log In</a>
+        <a href="/hire.html" class="nav-link nav-logged-out">Post a Project</a>
+        <a href="/profile.html" class="nav-link nav-logged-in">Dashboard →</a>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a href="/login.html" class="btn btn-ghost btn-sm nav-logged-out">Log In</a>
+      <a href="/hire.html" class="btn btn-primary btn-sm nav-logged-out">Post a Project</a>
+      <a href="/profile.html" class="btn btn-primary btn-sm nav-logged-in">Dashboard →</a>
+    </div>
+    <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <main>
+
+    <!-- ══ HEADER BAND ══ -->
+    <div class="sl-header-band">
+      <div class="shell sl-header-inner">
+        <div class="sl-header-text">
+          <p class="eyebrow">Growth → Skill Lab</p>
+          <h1>Skill Lab</h1>
+          <p>Complete AI-assigned challenges, submit your work, earn XP and badges — and unlock Marketplace access when you're ready.</p>
+        </div>
+        <a href="/review.html" class="mp-header-cta" id="slRunReviewBtn">Run AI Analysis →</a>
+      </div>
+    </div>
+
+    <!-- ══ PROGRESS BAND ══ -->
+    <div class="sl-progress-band" id="slProgressBand">
+      <div class="shell sl-progress-inner">
+        <div class="sl-level-badge">
+          <div class="sl-level-circle" id="slLevelCircle">1</div>
+          <div class="sl-level-info">
+            <strong id="slLevelLabel">Level 1</strong>
+            <span id="slBandLabel">Foundation</span>
+          </div>
+        </div>
+        <div class="sl-xp-col">
+          <div class="sl-xp-label">
+            <span>XP Progress</span>
+            <span id="slXpLabel">0 / 200 XP</span>
+          </div>
+          <div class="sl-xp-track"><div class="sl-xp-fill" id="slXpFill" style="width:0%"></div></div>
+        </div>
+        <div class="sl-stat-pills">
+          <div class="sl-stat-pill" id="slCompletedPill">0 Done</div>
+          <div class="sl-stat-pill highlight" id="slActivePill">0 Active</div>
+          <div class="sl-stat-pill" id="slScorePill">Score: —</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ AUTH GATE ══ -->
+    <div id="authGate" class="shell hidden" style="padding:3rem 0;">
+      <div class="sl-empty-state">
+        <h3>🔐 Designer login required</h3>
+        <p>Log in with a designer account to access your Skill Lab missions, XP, and badges.</p>
+        <div style="display:flex;gap:0.75rem;justify-content:center;">
+          <a href="/signup.html" class="button primary">Create Free Account →</a>
+          <a href="/login.html" class="button secondary">Log In</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ EMPTY STATE (logged in, no review) ══ -->
+    <div id="emptyState" class="shell hidden" style="padding:3rem 0;">
+      <div class="sl-empty-state">
+        <h3>🎯 No challenges yet</h3>
+        <p id="statusMessage">Run a portfolio review first so the Skill Lab can generate personalised challenges for you.</p>
+        <a href="/review.html" class="button primary">Start AI Portfolio Review →</a>
+      </div>
+    </div>
+
+    <!-- ══ MAIN CONTENT (populated by JS) ══ -->
+    <div id="growthContent" class="sl-body shell hidden">
+      <div class="sl-layout">
+
+        <!-- LEFT: challenges + submit -->
+        <div class="sl-main-col">
+
+          <!-- Summary card -->
+          <div class="sl-summary-card" id="slSummaryCard" style="margin-bottom:1.75rem;">
+            <h3 id="summaryTitle">Your Progression Path</h3>
+            <p id="summaryText"></p>
+            <p class="sl-coach-note" id="coachNote"></p>
+          </div>
+
+          <!-- Tabs: Challenges | Submit Work -->
+          <div class="sl-tabs" role="tablist">
+            <button class="sl-tab active" role="tab" id="tabChallenges" data-sl-tab="challenges">🎯 Challenges</button>
+            <button class="sl-tab" role="tab" id="tabSubmit" data-sl-tab="submit">📤 Submit Work</button>
+            <button class="sl-tab" role="tab" id="tabHistory" data-sl-tab="history">🏅 Badges &amp; Roadmap</button>
+          </div>
+
+          <!-- Panel: Challenges -->
+          <div id="slPanelChallenges" class="sl-panel">
+            <div class="sl-section">
+              <div class="sl-section-head">
+                <h2>Active Challenges</h2>
+              </div>
+              <div class="sl-challenge-grid" id="challengeBoard">
+                <div class="sl-empty-state" style="border-style:dashed;">
+                  <p>No challenges yet. Run an AI review first.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel: Submit Work -->
+          <div id="slPanelSubmit" class="sl-panel hidden">
+            <div class="sl-section">
+              <div class="sl-section-head">
+                <h2>Submit Your Work</h2>
+                <p>Upload a design link for a challenge to mark it complete and earn XP</p>
+              </div>
+
+              <div class="sl-submit-card" id="slSubmitCard">
+                <h3>📤 Submit a Design / Task</h3>
+                <p>Share your work for any active challenge. Paste a link to your Figma, Behance, Notion, or any public URL. Your submission will be logged and the challenge marked complete.</p>
+
+                <form id="slSubmitForm" novalidate>
+
+                  <div class="sl-submit-field">
+                    <label for="slSubmitChallenge">Select Challenge <span style="color:var(--danger)">*</span></label>
+                    <select id="slSubmitChallenge" name="challengeId" required>
+                      <option value="">Choose an active challenge…</option>
+                    </select>
+                  </div>
+
+                  <div class="sl-submit-field">
+                    <label for="slSubmitLink">Design / Work Link <span style="color:var(--danger)">*</span></label>
+                    <input id="slSubmitLink" name="link" type="url" placeholder="https://figma.com/file/… or behance.net/…" required />
+                  </div>
+
+                  <div class="sl-submit-field">
+                    <label for="slSubmitNotes">Context &amp; Notes (optional)</label>
+                    <textarea id="slSubmitNotes" name="notes" rows="3" placeholder="Briefly explain your design decisions, what you focused on, what you'd improve…"></textarea>
+                  </div>
+
+                  <div id="slSubmitError" class="hidden" style="font-size:0.8125rem;color:var(--danger);font-weight:600;padding:0.5rem 0;"></div>
+                  <div id="slSubmitSuccess" class="sl-submit-success hidden">
+                    ✅ Submission received! XP has been added and the challenge marked complete.
+                  </div>
+
+                  <button type="submit" class="sl-submit-btn" id="slSubmitBtn">
+                    Submit Work &amp; Earn XP →
+                  </button>
+                </form>
+
+                <div class="sl-submit-field" style="border-top:1px solid var(--border);padding-top:1rem;margin-top:0.25rem;">
+                  <p style="font-size:0.75rem;color:var(--ink-muted);margin:0;">
+                    💡 <strong>Tips for great submissions:</strong> Include your process, not just the final output. Link to a case study or annotated Figma file for best feedback.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel: Badges & Roadmap -->
+          <div id="slPanelHistory" class="sl-panel hidden">
+            <div class="sl-section">
+              <div class="sl-section-head"><h2>Earned Badges</h2></div>
+              <div id="badgeBoard" class="sl-badge-display">
+                <p style="color:var(--ink-muted);font-size:0.875rem;">No badges yet — complete challenges to earn them.</p>
+              </div>
+            </div>
+            <div class="sl-section" style="margin-top:2rem;">
+              <div class="sl-section-head"><h2>Growth Roadmap</h2><p>Missions tied to your assessment gaps</p></div>
+              <div id="roadmapList" class="sl-roadmap-list"></div>
+            </div>
+          </div>
+
+        </div><!-- /sl-main-col -->
+
+        <!-- RIGHT: sidebar -->
+        <div class="sl-sidebar" id="slSidebar">
+
+          <!-- Overview metrics -->
+          <div class="sl-sidebar-card">
+            <p class="sl-sidebar-title">📊 Overview</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;text-align:center;">
+              <div>
+                <div style="font-size:1.5rem;font-weight:800;color:var(--ink);line-height:1;font-family:var(--font-display);" id="overallScore">—</div>
+                <div style="font-size:0.65rem;color:var(--ink-muted);font-weight:600;margin-top:0.2rem;">AI Score</div>
+                <div style="font-size:0.65rem;color:var(--ink-secondary);font-weight:500;margin-top:0.1rem;" id="overallBand">—</div>
+              </div>
+              <div>
+                <div style="font-size:1.5rem;font-weight:800;color:var(--ink);line-height:1;font-family:var(--font-display);" id="levelValue">1</div>
+                <div style="font-size:0.65rem;color:var(--ink-muted);font-weight:600;margin-top:0.2rem;">Level</div>
+                <div style="font-size:0.65rem;color:var(--ink-secondary);font-weight:500;margin-top:0.1rem;" id="xpValue">0 XP</div>
+              </div>
+              <div>
+                <div style="font-size:1.5rem;font-weight:800;color:var(--ink);line-height:1;font-family:var(--font-display);" id="completedCount">0</div>
+                <div style="font-size:0.65rem;color:var(--ink-muted);font-weight:600;margin-top:0.2rem;">Done</div>
+                <div style="font-size:0.65rem;color:var(--ink-secondary);font-weight:500;margin-top:0.1rem;">Challenges</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Marketplace unlock status -->
+          <div class="sl-sidebar-card" id="slMarketplaceStatus">
+            <p class="sl-sidebar-title">🏆 Marketplace Access</p>
+            <div style="font-size:0.8125rem;color:var(--ink-secondary);line-height:1.6;" id="slMarketplaceMsg">
+              Complete challenges to unlock Marketplace access and start applying to real gigs.
+            </div>
+            <a href="/marketplace.html" class="button primary" id="slMarketplaceBtn" style="margin-top:0.875rem;width:100%;text-align:center;display:block;font-size:0.875rem;padding:0.625rem 1rem;">Browse Marketplace</a>
+          </div>
+
+          <!-- Quick links -->
+          <div class="sl-sidebar-card">
+            <p class="sl-sidebar-title">⚡ Quick Actions</p>
+            <div style="display:grid;gap:0.5rem;">
+              <a href="/review.html" style="font-size:0.875rem;font-weight:600;color:var(--cta);padding:0.5rem;border-radius:0.5rem;background:var(--cta-soft);text-align:center;border:1px solid rgba(var(--cta-rgb),0.15);">View AI Analysis →</a>
+              <a href="/marketplace.html" style="font-size:0.875rem;font-weight:600;color:var(--ink);padding:0.5rem;border-radius:0.5rem;background:var(--bg-subtle);text-align:center;border:1px solid var(--border);">Browse Gigs →</a>
+              <a href="/profile.html" style="font-size:0.875rem;font-weight:600;color:var(--ink);padding:0.5rem;border-radius:0.5rem;background:var(--bg-subtle);text-align:center;border:1px solid var(--border);">My Dashboard →</a>
+            </div>
+          </div>
+
+        </div><!-- /sl-sidebar -->
+      </div>
+    </div><!-- /growthContent -->
+
+  </main>
+
+  <footer class="site-footer-thread" id="siteFooter">
+    <div class="shell">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-brand">
+            <div class="nav-monogram">TT</div>
+            <span class="nav-wordmark" style="color: var(--text-inv);">Thread</span>
+          </div>
+          <p>Where early-career design talent meets real opportunity. Build proof, grow skills, get hired.</p>
+        </div>
+        <div class="footer-col"><strong>For Designers</strong><a href="/review.html">AI Analysis</a><a href="/skill-lab.html">Skill Lab</a><a href="/marketplace.html">Browse Gigs</a><a href="/profile.html">Dashboard</a></div>
+        <div class="footer-col"><strong>For Clients</strong><a href="/hire.html">Post a Project</a><a href="/marketplace.html">Browse Designers</a><a href="/how-it-works.html">How It Works</a></div>
+        <div class="footer-col"><strong>Company</strong><a href="/">Home</a><a href="/for-freelancers.html">Join as Designer</a><a href="/for-clients.html">For Companies</a></div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 Talent Thread. All rights reserved.</span>
+        <span>Made for designers, by designers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/shared.js"></script>
+  <script src="/js/skill-lab.js"></script>
+</body>
+</html>
+
+

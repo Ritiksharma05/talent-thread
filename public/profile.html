@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Your Talent Thread designer dashboard — AI scores, growth challenges, applications, and profile all in one place." />
+    <title>Talent Thread | Designer Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/thread-ui.css" />
+    <link rel="stylesheet" href="/css/platform-v2.css" />
+    <link rel="stylesheet" href="/css/profile-dashboard.css" />
+  </head>
+  <body>
+
+    <div id="saveToast" class="toast hidden" role="status" aria-live="polite">Details saved successfully</div>
+
+    <nav class="site-nav-thread" id="siteHeader">
+      <a class="nav-brand" href="/">
+        <img src="/assets/logos/tt-logo.png" alt="Talent Thread" class="nav-brand-logo" />
+      </a>
+      <div class="nav-links" id="mainNav">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/marketplace.html" class="nav-link">Marketplace</a>
+        <a href="/review.html" class="nav-link">AI Analysis</a>
+        <a href="/skill-lab.html" class="nav-link">Skill Lab</a>
+        <a href="/profile.html" class="nav-link active nav-logged-in">Dashboard</a>
+        <div class="mobile-only">
+          <a href="/login.html" class="nav-link nav-logged-out">Log In</a>
+          <a href="/hire.html" class="nav-link nav-logged-out">Post a Project</a>
+          <a href="/profile.html" class="nav-link nav-logged-in">Dashboard →</a>
+        </div>
+      </div>
+      <div class="nav-right">
+        <a href="/login.html" class="btn btn-ghost btn-sm nav-logged-out">Log In</a>
+        <a href="/hire.html" class="btn btn-primary btn-sm nav-logged-out">Post a Project</a>
+        <a href="/profile.html" class="btn btn-primary btn-sm nav-logged-in">Dashboard →</a>
+      </div>
+      <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <main class="pd-main">
+
+      <!-- ── Auth Gate (not logged in) ── -->
+      <div id="authGate" class="pd-auth-gate hidden">
+        <div class="pd-auth-gate-inner">
+          <div class="pd-auth-icon">🔐</div>
+          <h2>Sign in to access your dashboard</h2>
+          <p>Your AI scores, growth challenges, and applications live here. Create a free account or log in to get started.</p>
+          <div class="pd-auth-actions">
+            <a href="/signup.html" class="button home-btn-primary">Create Free Account →</a>
+            <a href="/login.html" class="button home-btn-ghost">Log In</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Designer Dashboard ── -->
+      <div id="designerProfile" class="pd-layout hidden">
+
+        <!-- ═══ LEFT SIDEBAR (sticky) ═══ -->
+        <aside class="pd-sidebar">
+          <div class="pd-sidebar-inner">
+
+            <!-- Avatar + Name -->
+            <div class="pd-identity">
+              <div class="pd-avatar-wrap">
+                <img id="designerProfileImage" class="pd-avatar-img hidden" src="" alt="Profile photo" />
+                <div id="designerProfileFallback" class="pd-avatar-fallback">TT</div>
+                <div class="pd-avatar-badge" id="designerBandBadge">Emerging</div>
+              </div>
+              <div>
+                <h1 id="designerFullName" class="pd-name">Designer</h1>
+                <p id="designerHeadline" class="pd-headline">Design professional</p>
+              </div>
+            </div>
+
+            <!-- Chips: location, availability, rate -->
+            <div class="pd-meta-chips" id="designerMeta"></div>
+
+            <!-- Tools -->
+            <div class="pd-section-label">Tools & Skills</div>
+            <div class="pd-tools" id="designerTools">
+              <span class="pd-chip">Tools pending</span>
+            </div>
+
+            <!-- About / Bio -->
+            <div class="pd-about" id="designerAbout">Add a short bio to your profile.</div>
+
+            <!-- Divider -->
+            <div class="pd-divider"></div>
+
+            <!-- Portfolio Thumbnails Grid -->
+            <div class="pd-section-label">Featured Work</div>
+            <div class="pd-portfolio-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-bottom:1.5rem;">
+              <img src="/assets/images/project_thumbnail.png" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-sm);border:1px solid var(--border);" alt="Project 1" />
+              <img src="/assets/images/project_thumbnail.png" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-sm);border:1px solid var(--border);" alt="Project 2" />
+            </div>
+
+            <!-- CTAs -->
+            <a id="portfolioButton" href="/" target="_blank" rel="noopener" class="pd-cta-btn pd-cta-outline">Open Full Portfolio ↗</a>
+            <a href="/profile-edit.html" class="pd-cta-btn pd-cta-solid">Edit Profile</a>
+            <a id="publicProfileButton" href="/designers" class="pd-cta-btn pd-cta-ghost">Open Public Profile</a>
+            
+            <a href="/marketplace.html" class="pd-cta-btn pd-cta-ghost">Browse Marketplace</a>
+
+            <!-- Divider -->
+            <div class="pd-divider"></div>
+
+            <!-- Stat pills -->
+            <div class="pd-stats-grid">
+              <div class="pd-stat">
+                <div class="pd-stat-value" id="designerScore">0</div>
+                <div class="pd-stat-label">AI Score</div>
+              </div>
+              <div class="pd-stat">
+                <div class="pd-stat-value" id="designerLevel">1</div>
+                <div class="pd-stat-label">Level</div>
+              </div>
+              <div class="pd-stat">
+                <div class="pd-stat-value" id="designerApplicationCount">0</div>
+                <div class="pd-stat-label">Applications</div>
+              </div>
+              <div class="pd-stat">
+                <div class="pd-stat-value" id="designerSavedCount">0</div>
+                <div class="pd-stat-label">Saved</div>
+              </div>
+            </div>
+
+          </div>
+        </aside>
+
+        <!-- ═══ RIGHT MAIN PANEL ═══ -->
+        <div class="pd-main-panel">
+
+          <!-- ── Section 1: AI Score Card ── -->
+          <section class="pd-section" id="pd-score-section">
+            <div class="pd-section-header">
+              <h2 class="pd-section-title">AI Portfolio Score</h2>
+              <a href="/review.html" class="pd-section-link">View Full Analysis →</a>
+            </div>
+            <div id="pdScoreEmpty" class="pd-score-empty">
+              <p>No portfolio review yet.</p>
+              <a href="/onboarding.html" class="button home-btn-primary" style="width:fit-content">Get AI-Reviewed →</a>
+            </div>
+            <div id="pdScoreCard" class="pd-score-card hidden">
+              <div class="pd-score-ring-col">
+                <svg class="pd-score-ring-svg" width="110" height="110" viewBox="0 0 110 110" fill="none" aria-hidden="true">
+                  <circle cx="55" cy="55" r="46" stroke="var(--border)" stroke-width="9"/>
+                  <circle cx="55" cy="55" r="46" stroke="url(#pdGrad)" stroke-width="9"
+                    stroke-linecap="round"
+                    stroke-dasharray="289"
+                    id="pdRingArc"
+                    stroke-dashoffset="289"
+                    transform="rotate(-90 55 55)"/>
+                  <defs>
+                    <linearGradient id="pdGrad" x1="0" y1="0" x2="110" y2="0" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#6366f1"/>
+                      <stop offset="100%" stop-color="#2563eb"/>
+                    </linearGradient>
+                  </defs>
+                  <text id="pdRingNum" x="55" y="60" text-anchor="middle" font-size="22" font-weight="800" fill="var(--ink)" font-family="Plus Jakarta Sans, sans-serif">0</text>
+                </svg>
+                <div class="pd-score-band" id="designerBand">—</div>
+              </div>
+              <div class="pd-score-dims" id="pdDimensionBars">
+                <!-- dimension bars injected by JS -->
+              </div>
+            </div>
+          </section>
+
+          <!-- ── Section 2: Growth Lab ── -->
+          <section class="pd-section" id="pd-growth-section">
+            <div class="pd-section-header">
+              <h2 class="pd-section-title">Growth Lab</h2>
+              <a href="/skill-lab.html" class="pd-section-link">Open Skill Lab →</a>
+            </div>
+            <!-- Level + XP bar -->
+            <div class="pd-xp-bar-row">
+              <div class="pd-xp-level" id="pdXpLevel">Level 1</div>
+              <div class="pd-xp-track">
+                <div class="pd-xp-fill" id="pdXpFill" style="width:0%"></div>
+              </div>
+              <div class="pd-xp-num" id="pdXpNum">0 XP</div>
+            </div>
+            <!-- Challenges -->
+            <div class="pd-growth-challenges" id="pdChallenges">
+              <div class="pd-challenge-empty">No active challenges. <a href="/skill-lab.html">Visit Skill Lab →</a></div>
+            </div>
+            <!-- Badges row -->
+            <div class="pd-badges-row" id="pdBadgesRow">
+              <!-- badges injected by JS -->
+            </div>
+          </section>
+
+          <!-- ── Section 3: Activity ── -->
+          <section class="pd-section" id="pd-activity-section">
+            <div class="pd-section-header">
+              <h2 class="pd-section-title">Activity</h2>
+              <a href="/marketplace.html" class="pd-section-link">Go to Marketplace →</a>
+            </div>
+            <div class="pd-activity-grid">
+              <div>
+                <div class="pd-activity-label">Applications</div>
+                <div id="designerApplications" class="pd-activity-list">
+                  <div class="pd-empty-inline">No applications yet. Browse gigs to apply.</div>
+                </div>
+              </div>
+              <div>
+                <div class="pd-activity-label">Saved Projects</div>
+                <div id="designerSavedProjects" class="pd-activity-list">
+                  <div class="pd-empty-inline">Bookmark gigs from the Marketplace.</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ── Section 4: Assessment History ── -->
+          <section class="pd-section" id="pd-contract-section">
+            <div class="pd-section-header">
+              <h2 class="pd-section-title">Contracts</h2>
+              
+            </div>
+            <div id="designerContracts" class="pd-activity-list">
+              <div class="pd-empty-inline">Contracts you win in the marketplace will appear here.</div>
+            </div>
+          </section>
+
+          <section class="pd-section" id="pd-notification-section">
+            <div class="pd-section-header">
+              <h2 class="pd-section-title">Notifications</h2>
+            </div>
+            <div id="designerNotifications" class="pd-activity-list">
+              <div class="pd-empty-inline">Activity alerts and payment updates will show up here.</div>
+            </div>
+          </section>
+
+          <section class="pd-section" id="pd-history-section">
+            <div class="pd-section-header">
+              <h2 class="pd-section-title">Assessment History</h2>
+            </div>
+            <div id="designerHistory" class="pd-history-list">
+              <div class="pd-empty-inline">Run your first review to start tracking progress.</div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+
+      <!-- ── Client Dashboard ── -->
+      <div id="clientProfile" class="pd-client-layout hidden">
+        <div class="shell">
+          <div class="pd-section-header" style="margin-bottom:1.5rem;">
+            <h1 style="margin:0;font-size:1.75rem;">Client Dashboard</h1>
+          </div>
+          <div class="overview-grid">
+            <article class="metric-card"><p class="metric-label">Posted Projects</p><h3 id="clientProjectCount">0</h3><p class="metric-note">live projects</p></article>
+            <article class="metric-card"><p class="metric-label">Total Applicants</p><h3 id="clientApplicantCount">0</h3><p class="metric-note">designer submissions</p></article>
+            <article class="metric-card"><p class="metric-label">Role</p><h3>Client</h3><p class="metric-note">project owner</p></article>
+          </div>
+          <div class="pd-section" style="margin-top:2rem;">
+            <div class="pd-section-header">
+              <h2 class="pd-section-title">Client Profile</h2>
+            </div>
+            <div class="simple-card" style="padding:1.25rem;display:grid;gap:0.25rem;">
+              <div style="font-size:1rem;font-weight:700;" id="clientName">Client</div>
+              <div style="font-size:0.875rem;color:var(--ink-secondary);" id="clientEmail"></div>
+            </div>
+          </div>
+          <div class="pd-section" style="margin-top:2rem;">
+            <div class="pd-section-header">
+              <h2 class="pd-section-title">Your Projects</h2>
+              <a href="/marketplace.html" class="pd-section-link">Post a Project →</a>
+            </div>
+            <div id="clientProjectBoard" class="project-board"></div>
+          </div>
+          <div class="pd-section" style="margin-top:2rem;">
+            <div class="pd-section-header">
+              <h2 class="pd-section-title">Contracts</h2>
+              
+            </div>
+            <div id="clientContractBoard" class="project-board"></div>
+          </div>
+          <div class="pd-section" style="margin-top:2rem;">
+            <div class="pd-section-header">
+              <h2 class="pd-section-title">Notifications</h2>
+            </div>
+            <div id="clientNotifications" class="project-board"></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="site-footer-thread" id="siteFooter">
+      <div class="shell">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="nav-brand">
+              <div class="nav-monogram">TT</div>
+              <span class="nav-wordmark" style="color: var(--text-inv);">Thread</span>
+            </div>
+            <p>Where early-career design talent meets real opportunity.</p>
+          </div>
+          <div class="footer-col"><strong>Designers</strong><a href="/review.html">AI Analysis</a><a href="/skill-lab.html">Skill Lab</a><a href="/marketplace.html">Browse Gigs</a></div>
+          <div class="footer-col"><strong>Clients</strong><a href="/hire.html">Post a Project</a><a href="/how-it-works.html">How It Works</a></div>
+          <div class="footer-col"><strong>Platform</strong><a href="/">Home</a><a href="/for-freelancers.html">Join as Designer</a></div>
+          <div class="footer-col"><strong>Account</strong><a href="/profile.html">Dashboard</a><a href="/profile-edit.html">Edit Profile</a></div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2025 Talent Thread. All rights reserved.</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/tt-utils.js"></script>
+    <script type="module" src="/js/shared.js"></script>
+    <script src="/js/profile.js"></script>
+    <script>
+      document.getElementById('mobileMenuBtn')?.addEventListener('click',()=>document.getElementById('mainNav')?.classList.toggle('mobile-open'));
+      window.addEventListener('scroll',()=>document.getElementById('siteHeader')?.classList.toggle('scrolled',window.scrollY>10),{passive:true});
+      // Score bar animation
+      function animateDimensionBars() {
+        document.querySelectorAll('.dimension-fill[data-value]').forEach(fill => {
+          fill.style.width = fill.dataset.value + '%';
+        });
+      }
+      setTimeout(animateDimensionBars, 300);
+    </script>
+  </body>
+</html>
+
+

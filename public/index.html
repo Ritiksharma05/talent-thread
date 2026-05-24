@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Talent Thread — The platform where early-career designers get AI-reviewed, grow through challenges, and land real design opportunities. Studio-grade talent, verified." />
+    <title>Talent Thread — Studio-Grade Design Talent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/thread-ui.css" />
+    <link rel="stylesheet" href="/css/home-v2.css" />
+  </head>
+  <body>
+
+    <!-- ══ NAVIGATION ══ -->
+    <nav class="site-nav-thread" id="siteHeader">
+      <a class="nav-brand" href="/">
+        <img src="/assets/logos/tt-logo.png" alt="Talent Thread" class="nav-brand-logo" />
+      </a>
+      <div class="nav-links" id="mainNav">
+        <a href="/" class="nav-link active" id="navHome">Home</a>
+        <a href="/marketplace.html" class="nav-link" id="navMarket">Marketplace</a>
+        <a href="/for-clients.html" class="nav-link" id="navClients">For Clients</a>
+        <a href="/for-freelancers.html" class="nav-link" id="navDesigners">For Designers</a>
+        <a href="/skill-lab.html" class="nav-link" id="navSkillLab">Skill Lab</a>
+        <div class="mobile-only">
+          <a href="/login.html" class="nav-link nav-logged-out">Log In</a>
+          <a href="/signup.html" class="nav-link nav-logged-out">Post a Project</a>
+          <a href="/profile.html" class="nav-link nav-logged-in">Dashboard →</a>
+        </div>
+      </div>
+      <div class="nav-right">
+        <a href="/login.html" class="btn btn-ghost btn-sm nav-logged-out" id="navLogin">Log In</a>
+        <a href="/signup.html" class="btn btn-primary btn-sm nav-logged-out" id="navSignup">Post a Project</a>
+        <a href="/profile.html" class="btn btn-primary btn-sm nav-logged-in" id="navDashboard">Dashboard →</a>
+      </div>
+      <button class="nav-mobile-btn" id="mobileMenuBtn" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <main>
+
+      <!-- ══ BENTO LANDING GRID ══ -->
+      <div class="home-bento shell" id="homeBento">
+
+        <!-- ────────── ROW 1: HERO (full-width ink cell) ────────── -->
+        <div class="cell ink span-3 hero-cell cell-animate" id="heroCell">
+          <div class="hero-inner">
+            <div class="hero-copy">
+              <p class="cell-label">AI-Verified Design Talent Network</p>
+              <h1 class="hero-headline">Where India's best<br>designers get hired fast.</h1>
+              <p class="hero-subhead">Every designer on Talent Thread is AI-scored across 6 skill dimensions. Verified portfolio. Real gigs. Built for early-career designers who want to prove their skills — not just promise them.</p>
+              <div class="hero-actions">
+                <a href="/signup.html" class="btn btn-primary btn-lg" id="heroPrimaryBtn">Post a Project</a>
+                <a href="/for-freelancers.html" class="btn btn-ghost btn-lg" id="heroSecondaryBtn">Join as Designer</a>
+              </div>
+            </div>
+            <div class="hero-card-preview" id="heroVisual">
+              <!-- Designer card preview -->
+              <div class="hero-preview-card" id="heroPreviewCard">
+                <div class="hero-preview-header">
+                  <div class="avatar avatar-md avatar-blue">SM</div>
+                  <div>
+                    <div class="hero-preview-name">Sneha Mehta</div>
+                    <div class="hero-preview-role">Product Designer · Pune</div>
+                  </div>
+                  <div class="ai-score-small">
+                    <div class="score-num mono">80</div>
+                    <div class="score-lbl">AI Score</div>
+                  </div>
+                </div>
+                <div class="hero-preview-badges">
+                  <span class="badge badge-verified">Verified</span>
+                  <span class="badge badge-level">Level 4</span>
+                  <span class="badge badge-available">Available</span>
+                </div>
+                <div class="hero-preview-skills">
+                  <span class="skill-pill">Product Strategy</span>
+                  <span class="skill-pill">Figma</span>
+                  <span class="skill-pill">User Research</span>
+                </div>
+                <div class="hero-preview-prev">Previously at <strong>Zomato · Swiggy</strong></div>
+              </div>
+              <!-- Stack card bg -->
+              <div class="hero-preview-card hero-stack-2" aria-hidden="true">
+                <div class="hero-preview-header">
+                  <div class="avatar avatar-md avatar-success">AR</div>
+                  <div>
+                    <div class="hero-preview-name">Arya Reddy</div>
+                    <div class="hero-preview-role">UI/UX Designer · Bangalore</div>
+                  </div>
+                  <div class="ai-score-small">
+                    <div class="score-num mono">77</div>
+                    <div class="score-lbl">AI Score</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ────────── ROW 2: STATS STRIP (3 equal cells) ────────── -->
+        <div class="cell cell-animate" id="stat1">
+          <span class="cell-label">Designers</span>
+          <div class="stat-value mono">500+</div>
+          <div class="stat-desc">AI-verified active designers</div>
+        </div>
+        <div class="cell cell-animate" id="stat2">
+          <span class="cell-label">Avg. Rating</span>
+          <div class="stat-value mono">4.9</div>
+          <div class="stat-desc">From verified client reviews</div>
+        </div>
+        <div class="cell cell-animate" id="stat3">
+          <span class="cell-label">Match Time</span>
+          <div class="stat-value mono">48hrs</div>
+          <div class="stat-desc">Average time to first match</div>
+        </div>
+
+        <!-- ────────── ROW 3: SOCIAL PROOF + HOW IT WORKS ────────── -->
+        <!-- Testimonial pull-quote (2/3) -->
+        <div class="cell span-2 proof-cell cell-animate" id="proofCell">
+          <span class="cell-label">Client Perspective</span>
+          <blockquote class="pull-quote">
+            "Talent Thread acts as our automated technical screen. By the time I interview a designer, I already know they have the visual craft and problem-solving skills we need."
+          </blockquote>
+          <div class="quote-author">
+            <div class="avatar avatar-sm avatar-blue">SJ</div>
+            <div>
+              <div class="quote-author-name">Sarah J.</div>
+              <div class="quote-author-role">VP of Design, Finova</div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <blockquote class="pull-quote" style="font-size: 15px;">
+            "I went from zero freelance clients to ₹50k/month within 3 months. The verified badge changed everything."
+          </blockquote>
+          <div class="quote-author">
+            <div class="avatar avatar-sm avatar-warning">RS</div>
+            <div>
+              <div class="quote-author-name">Riya S.</div>
+              <div class="quote-author-role">Brand Designer · Hyderabad · Hired via TT</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- How it works (1/3) -->
+        <div class="cell cell-animate" id="howCell">
+          <span class="cell-label">How It Works</span>
+          <p class="how-headline">From brief to hired in 3 steps</p>
+          <div class="process-steps" style="margin-top: 16px;">
+            <div class="process-step">
+              <div class="process-step-num">01</div>
+              <div>
+                <h3>Get AI-Reviewed</h3>
+                <p>Portfolio scored across 6 skill dimensions</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="process-step-num">02</div>
+              <div>
+                <h3>Build Verified Skills</h3>
+                <p>Complete challenges, earn XP and badges</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="process-step-num">03</div>
+              <div>
+                <h3>Get Hired with Confidence</h3>
+                <p>Apply to real gigs with your score visible</p>
+              </div>
+            </div>
+          </div>
+          <a href="/how-it-works.html" class="btn btn-secondary btn-sm" style="margin-top: 16px; width: 100%; justify-content: center;">Learn More →</a>
+        </div>
+
+        <!-- ────────── ROW 4: DESIGNER GRID (full width) ────────── -->
+        <div class="cell span-3 designers-cell cell-animate" id="designersCell">
+          <div class="designers-cell-head">
+            <div>
+              <span class="cell-label">Talent Network</span>
+              <p class="section-title">Studio-grade designers, ready to hire</p>
+            </div>
+            <div class="designer-filter-pills" id="designerFilters" role="tablist">
+              <button class="filter-pill active" data-cat="all" role="tab">All</button>
+              <button class="filter-pill" data-cat="uiux" role="tab">UI/UX</button>
+              <button class="filter-pill" data-cat="brand" role="tab">Brand</button>
+              <button class="filter-pill" data-cat="motion" role="tab">Motion</button>
+              <button class="filter-pill" data-cat="product" role="tab">Product</button>
+            </div>
+            <a href="/marketplace.html" class="btn btn-secondary btn-sm" id="viewAllTalent">Browse All →</a>
+          </div>
+
+          <div class="designers-inner-grid" id="designerGrid">
+            <!-- Card 1 -->
+            <a href="/profile.html" class="designer-card" data-cat="uiux product" id="dc1">
+              <div class="designer-card-header">
+                <div class="avatar avatar-md avatar-blue">SM</div>
+                <div class="designer-card-info">
+                  <div class="designer-card-name">Sneha Mehta</div>
+                  <div class="designer-card-role">Product Designer · Pune</div>
+                </div>
+                <div class="ai-score-small">
+                  <div class="score-num mono">80</div>
+                  <div class="score-lbl">AI Score</div>
+                </div>
+              </div>
+              <div class="designer-card-badges">
+                <span class="badge badge-verified">Verified</span>
+                <span class="badge badge-level">Level 4</span>
+              </div>
+              <div class="designer-card-skills">
+                <span class="skill-pill">Product Strategy</span>
+                <span class="skill-pill">Figma</span>
+                <span class="skill-pill">User Research</span>
+              </div>
+              <div class="designer-card-footer">
+                <span class="designer-card-prev">Previously at <strong>Zomato · Swiggy</strong></span>
+                <div class="dc-stats-row">
+                  <span class="dc-stat-item"><span class="mono">8</span> Projects</span>
+                  <span class="dc-stat-item"><span class="mono">480</span> XP</span>
+                </div>
+              </div>
+            </a>
+
+            <!-- Card 2 -->
+            <a href="/profile.html" class="designer-card" data-cat="uiux" id="dc2">
+              <div class="designer-card-header">
+                <div class="avatar avatar-md avatar-success">AR</div>
+                <div class="designer-card-info">
+                  <div class="designer-card-name">Arya Reddy</div>
+                  <div class="designer-card-role">UI/UX Designer · Bangalore</div>
+                </div>
+                <div class="ai-score-small">
+                  <div class="score-num mono">77</div>
+                  <div class="score-lbl">AI Score</div>
+                </div>
+              </div>
+              <div class="designer-card-badges">
+                <span class="badge badge-verified">Verified</span>
+                <span class="badge badge-level">Level 3</span>
+              </div>
+              <div class="designer-card-skills">
+                <span class="skill-pill">Figma</span>
+                <span class="skill-pill">Dashboard UX</span>
+                <span class="skill-pill">Prototyping</span>
+              </div>
+              <div class="designer-card-footer">
+                <span class="designer-card-prev">Previously at <strong>Paytm · CRED</strong></span>
+                <div class="dc-stats-row">
+                  <span class="dc-stat-item"><span class="mono">4</span> Projects</span>
+                  <span class="dc-stat-item"><span class="mono">320</span> XP</span>
+                </div>
+              </div>
+            </a>
+
+            <!-- Card 3 -->
+            <a href="/profile.html" class="designer-card" data-cat="brand" id="dc3">
+              <div class="designer-card-header">
+                <div class="avatar avatar-md avatar-warning">PK</div>
+                <div class="designer-card-info">
+                  <div class="designer-card-name">Pranav Kumar</div>
+                  <div class="designer-card-role">Brand Designer · Mumbai</div>
+                </div>
+                <div class="ai-score-small">
+                  <div class="score-num mono">65</div>
+                  <div class="score-lbl">AI Score</div>
+                </div>
+              </div>
+              <div class="designer-card-badges">
+                <span class="badge badge-verified">Verified</span>
+                <span class="badge badge-level">Level 2</span>
+              </div>
+              <div class="designer-card-skills">
+                <span class="skill-pill">Logo Design</span>
+                <span class="skill-pill">Illustrator</span>
+                <span class="skill-pill">Brand Systems</span>
+              </div>
+              <div class="designer-card-footer">
+                <span class="designer-card-prev">Previously at <strong>DDB Mudra</strong></span>
+                <div class="dc-stats-row">
+                  <span class="dc-stat-item"><span class="mono">6</span> Projects</span>
+                  <span class="dc-stat-item"><span class="mono">210</span> XP</span>
+                </div>
+              </div>
+            </a>
+
+            <!-- Card 4 -->
+            <a href="/profile.html" class="designer-card" data-cat="motion" id="dc4">
+              <div class="designer-card-header">
+                <div class="avatar avatar-md avatar-neutral">VN</div>
+                <div class="designer-card-info">
+                  <div class="designer-card-name">Vikram Nair</div>
+                  <div class="designer-card-role">Motion Designer · Chennai</div>
+                </div>
+                <div class="ai-score-small">
+                  <div class="score-num mono">70</div>
+                  <div class="score-lbl">AI Score</div>
+                </div>
+              </div>
+              <div class="designer-card-badges">
+                <span class="badge badge-verified">Verified</span>
+                <span class="badge badge-level">Level 3</span>
+              </div>
+              <div class="designer-card-skills">
+                <span class="skill-pill">After Effects</span>
+                <span class="skill-pill">Lottie</span>
+                <span class="skill-pill">Storyboarding</span>
+              </div>
+              <div class="designer-card-footer">
+                <span class="designer-card-prev">Previously at <strong>Leo Burnett</strong></span>
+                <div class="dc-stats-row">
+                  <span class="dc-stat-item"><span class="mono">5</span> Projects</span>
+                  <span class="dc-stat-item"><span class="mono">290</span> XP</span>
+                </div>
+              </div>
+            </a>
+
+            <!-- Card 5 -->
+            <a href="/profile.html" class="designer-card" data-cat="product uiux" id="dc5">
+              <div class="designer-card-header">
+                <div class="avatar avatar-md avatar-blue">NK</div>
+                <div class="designer-card-info">
+                  <div class="designer-card-name">Nidhi Kapoor</div>
+                  <div class="designer-card-role">Product Designer · Delhi</div>
+                </div>
+                <div class="ai-score-small">
+                  <div class="score-num mono">82</div>
+                  <div class="score-lbl">AI Score</div>
+                </div>
+              </div>
+              <div class="designer-card-badges">
+                <span class="badge badge-verified">Verified</span>
+                <span class="badge badge-level">Level 5</span>
+                <span class="badge badge-hired">Hired</span>
+              </div>
+              <div class="designer-card-skills">
+                <span class="skill-pill">Mobile UX</span>
+                <span class="skill-pill">Figma</span>
+                <span class="skill-pill">Design Systems</span>
+              </div>
+              <div class="designer-card-footer">
+                <span class="designer-card-prev">Previously at <strong>Razorpay · PhonePe</strong></span>
+                <div class="dc-stats-row">
+                  <span class="dc-stat-item"><span class="mono">10</span> Projects</span>
+                  <span class="dc-stat-item"><span class="mono">600</span> XP</span>
+                </div>
+              </div>
+            </a>
+
+            <!-- Card 6 -->
+            <a href="/profile.html" class="designer-card" data-cat="brand motion" id="dc6">
+              <div class="designer-card-header">
+                <div class="avatar avatar-md avatar-warning">RS</div>
+                <div class="designer-card-info">
+                  <div class="designer-card-name">Riya Sharma</div>
+                  <div class="designer-card-role">Brand &amp; Motion · Hyderabad</div>
+                </div>
+                <div class="ai-score-small">
+                  <div class="score-num mono">71</div>
+                  <div class="score-lbl">AI Score</div>
+                </div>
+              </div>
+              <div class="designer-card-badges">
+                <span class="badge badge-verified">Verified</span>
+                <span class="badge badge-level">Level 3</span>
+              </div>
+              <div class="designer-card-skills">
+                <span class="skill-pill">Brand Identity</span>
+                <span class="skill-pill">After Effects</span>
+                <span class="skill-pill">Photoshop</span>
+              </div>
+              <div class="designer-card-footer">
+                <span class="designer-card-prev">Previously at <strong>Wunderman Thompson</strong></span>
+                <div class="dc-stats-row">
+                  <span class="dc-stat-item"><span class="mono">7</span> Projects</span>
+                  <span class="dc-stat-item"><span class="mono">350</span> XP</span>
+                </div>
+              </div>
+            </a>
+
+          </div><!-- /designers-inner-grid -->
+
+          <div class="designers-cell-footer">
+            <a href="/for-freelancers.html" class="btn btn-primary" id="joinDesignerBtn">Join as a Designer</a>
+            <a href="/marketplace.html" class="btn btn-secondary" id="hireTalentBtn">Hire Verified Talent</a>
+          </div>
+        </div>
+
+        <!-- ────────── ROW 5: DUAL CTA (full-width ink cell) ────────── -->
+        <div class="cell ink span-3 cta-cell cell-animate" id="ctaCell">
+          <div class="cta-cell-inner">
+            <div class="cta-side" id="ctaDesigner">
+              <span class="cell-label">For Designers</span>
+              <h2 class="cta-headline">Build proof.<br>Get noticed.</h2>
+              <ul class="cta-features">
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="6" stroke="#5A5955" stroke-width="1.5"/><path d="M4.5 7l2 2 3-3" stroke="#F7F6F3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  AI portfolio review scored across 6 skill dimensions
+                </li>
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="6" stroke="#5A5955" stroke-width="1.5"/><path d="M4.5 7l2 2 3-3" stroke="#F7F6F3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Challenges that build verifiable proof of growth
+                </li>
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="6" stroke="#5A5955" stroke-width="1.5"/><path d="M4.5 7l2 2 3-3" stroke="#F7F6F3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Marketplace access unlocked by your score, not your network
+                </li>
+              </ul>
+              <a href="/for-freelancers.html" class="btn btn-primary" id="ctaDesignerBtn">Join as Designer →</a>
+            </div>
+
+            <div class="cta-divider" aria-hidden="true"></div>
+
+            <div class="cta-side" id="ctaClient">
+              <span class="cell-label">For Clients</span>
+              <h2 class="cta-headline">Hire designers<br>you can trust.</h2>
+              <ul class="cta-features">
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="6" stroke="#5A5955" stroke-width="1.5"/><path d="M4.5 7l2 2 3-3" stroke="#F7F6F3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Every designer is AI-scored and skill-verified
+                </li>
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="6" stroke="#5A5955" stroke-width="1.5"/><path d="M4.5 7l2 2 3-3" stroke="#F7F6F3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Post projects, receive matched applications
+                </li>
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="6" stroke="#5A5955" stroke-width="1.5"/><path d="M4.5 7l2 2 3-3" stroke="#F7F6F3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Filter by discipline, readiness, budget, and timeline
+                </li>
+              </ul>
+              <a href="/hire.html" class="btn btn-ghost" id="ctaClientBtn">Post a Project →</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /home-bento -->
+
+    </main>
+
+    <!-- ══ FOOTER ══ -->
+    <footer class="site-footer-thread" id="siteFooter">
+      <div class="shell">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="nav-brand">
+              <div class="nav-monogram">TT</div>
+              <span class="nav-wordmark" style="color: var(--text-inv);">Thread</span>
+            </div>
+            <p>Where early-career design talent meets real opportunity. Build proof, grow skills, and get hired — faster than you think.</p>
+            <div class="footer-social">
+              <a href="#" aria-label="Twitter">𝕏</a>
+              <a href="#" aria-label="LinkedIn">in</a>
+              <a href="#" aria-label="Instagram">◻</a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <strong>Platform</strong>
+            <a href="/marketplace.html">Marketplace</a>
+            <a href="/review.html">AI Analysis</a>
+            <a href="/profile.html">Dashboard</a>
+            <a href="/skill-lab.html">Skill Lab</a>
+            <a href="/hire.html">Post a Project</a>
+          </div>
+          <div class="footer-col">
+            <strong>For Designers</strong>
+            <a href="/for-freelancers.html">Join as Designer</a>
+            <a href="/onboarding.html">Get Started</a>
+            <a href="/review.html">Portfolio Review</a>
+          </div>
+          <div class="footer-col">
+            <strong>For Companies</strong>
+            <a href="/for-clients.html">Hire Designers</a>
+            <a href="/hire.html">Post a Project</a>
+            <a href="/marketplace.html">Browse Talent</a>
+            <a href="/how-it-works.html">How It Works</a>
+          </div>
+          <div class="footer-col">
+            <strong>Company</strong>
+            <a href="#">About</a>
+            <a href="#">Blog</a>
+            <a href="#">Contact</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2025 Talent Thread. All rights reserved.</span>
+          <span>Designed with Thread UI v2</span>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module">
+        import { initSiteSync } from '/js/site-sync.js';
+        initSiteSync();
+    </script>
+    <script type="module" src="/js/shared.js"></script>
+    <script>
+      // Designer grid filter
+      const filterPills = document.querySelectorAll('.filter-pill');
+      const designerCards = document.querySelectorAll('#designerGrid .designer-card');
+      filterPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          filterPills.forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          const cat = pill.dataset.cat;
+          designerCards.forEach(card => {
+            const cardCats = card.dataset.cat || '';
+            const show = cat === 'all' || cardCats.includes(cat);
+            card.style.display = show ? '' : 'none';
+          });
+        });
+      });
+
+      // Nav scroll state
+      window.addEventListener('scroll', () => {
+        document.getElementById('siteHeader')?.classList.toggle('scrolled', window.scrollY > 10);
+      }, { passive: true });
+
+      // Score bar animation on intersection
+      function animateScoreBars() {
+        document.querySelectorAll('.score-bar-fill[data-value]').forEach(fill => {
+          fill.style.width = fill.dataset.value + '%';
+        });
+      }
+      // Trigger after load
+      requestAnimationFrame(animateScoreBars);
+    </script>
+  </body>
+</html>

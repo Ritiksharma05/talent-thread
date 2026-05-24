@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Edit your Talent Thread profile — update your photo, bio, headline, and project details." />
+    <title>Talent Thread | Edit Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+
+    <div id="saveToast" class="toast hidden" role="status" aria-live="polite">Details saved successfully</div>
+
+    <header class="shell site-header">
+      <a class="brand" href="/"><img src="/assets/logos/tt-logo.png" alt="Talent Thread" class="brand-logo" /></a>
+      <nav class="site-nav">
+        <a href="/">Home</a>
+        <a href="/marketplace.html">Marketplace</a>
+        <a href="/profile.html">Profile</a>
+        <a class="nav-cta nav-login" href="/login.html">Login</a>
+        <a class="nav-cta nav-signup" href="/signup.html">Signup</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="shell page-hero">
+        <div>
+          <p class="eyebrow">Profile editor</p>
+          <h1>Edit your profile.</h1>
+          <p class="hero-text">Update your details here. Changes are saved and reflected on your profile page immediately.</p>
+        </div>
+        <div class="subnav-card">
+          <p class="panel-label">Editor</p>
+          <h3>All profile details in one place.</h3>
+          <p>Update image, name, about, and projects before saving.</p>
+        </div>
+      </section>
+
+      <section class="shell page-layout">
+        <div class="panel">
+          <div class="panel-heading">
+            <p class="panel-label">Editor</p>
+            <h2>Edit Designer Details</h2>
+            <p id="statusMessage">Checking access...</p>
+          </div>
+          <div id="authGate" class="empty-state hidden"></div>
+          <form id="profileForm" class="assessment-form hidden">
+            <div class="image-input-panel">
+              <div class="image-input-head">
+                <span>Profile photo</span>
+              </div>
+              <div class="image-source-panel">
+                <label>
+                  <span>Choose image <span class="required-mark">*</span></span>
+                  <input id="profileImageFile" name="profileImageFile" type="file" accept="image/*" required />
+                </label>
+              </div>
+              <input name="profileImage" type="hidden" />
+            </div>
+            <div class="input-grid two-up">
+              <label><span>Full name <span class="required-mark">*</span></span><input name="fullName" type="text" required /></label>
+              <label><span>Headline</span><input name="headline" type="text" /></label>
+            </div>
+            <div class="input-grid two-up">
+              <label><span>City <span class="required-mark">*</span></span><input name="city" type="text" required /></label>
+              <label><span>Preferred rate</span><input name="preferredRate" type="text" /></label>
+            </div>
+            <label><span>Availability <span class="required-mark">*</span></span><select name="availability" required><option>Open to freelance</option><option>Available this month</option><option>Part-time only</option><option>Learning only</option></select></label>
+            <label><span>About <span class="required-mark">*</span></span><textarea name="about" rows="4" placeholder="Short introduction about yourself" required></textarea></label>
+            <label><span>Bio</span><textarea name="bio" rows="5"></textarea></label>
+            <label><span>Projects</span><textarea name="projectsInfo" rows="4" placeholder="Mention completed work, live projects, or portfolio highlights"></textarea></label>
+            <div class="hero-actions">
+              <button class="button primary" id="saveProfileButton" type="submit">Save Profile</button>
+              <a class="button secondary" href="/profile.html">Back to Profile</a>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="shell site-footer"><img src="/assets/logos/tt-logo.png" alt="Talent Thread" class="footer-logo" /><p>Edit and save your profile details.</p></footer>
+    <script src="/js/shared.js"></script>
+    <script src="/js/profile-edit.js"></script>
+  </body>
+</html>
+
+

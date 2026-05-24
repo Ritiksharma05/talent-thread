@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard | Talent Thread</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #eff6ff;
+            --surface: #ffffff;
+            --surface-2: #f8fafc;
+            --surface-3: #f1f5f9;
+            --ink: #0f172a;
+            --ink-2: #334155;
+            --ink-3: #64748b;
+            --border: #e2e8f0;
+            --success: #059669;
+            --success-bg: #ecfdf5;
+            --warning: #d97706;
+            --warning-bg: #fffbeb;
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+            --teal: #0d9488;
+            --teal-bg: #f0fdfa;
+            --gold: #d97706;
+            --radius: 12px;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--surface-2);
+            color: var(--ink);
+            font-size: 15px;
+            line-height: 1.5;
+            visibility: hidden;
+            min-height: 100vh;
+        }
+
+        /* Top Navigation */
+        .navbar {
+            background: var(--surface);
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-brand { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+        .nav-logo { font-weight: 800; font-size: 24px; color: var(--primary); }
+        .nav-wordmark { font-weight: 700; font-size: 18px; color: var(--ink); }
+        
+        .nav-links { display: flex; gap: 32px; }
+        .nav-link { text-decoration: none; color: var(--ink-2); font-weight: 500; font-size: 14px; transition: 0.15s; }
+        .nav-link:hover, .nav-link.active { color: var(--primary); }
+
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .notif-btn { position: relative; cursor: pointer; border: none; background: none; color: var(--ink-2); }
+        .notif-badge { position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; display: none; }
+        .notif-badge.active { display: block; animation: pulse 2s infinite; }
+        
+        .plan-badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 99px; text-transform: uppercase; }
+        .plan-free { background: var(--surface-3); color: var(--ink-3); }
+        .plan-growth { background: linear-gradient(135deg, #0d9488, #2dd4bf); color: white; }
+
+        .nav-user { display: flex; align-items: center; gap: 10px; cursor: pointer; position: relative; }
+        .nav-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; border: 1px solid var(--primary); }
+        
+        /* Dropdown */
+        .dropdown { position: absolute; top: calc(100% + 8px); right: 0; width: 240px; background: white; border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow-md); display: none; overflow: hidden; }
+        .dropdown.active { display: block; }
+        .dropdown-header { padding: 16px; border-bottom: 1px solid var(--border); }
+        .dropdown-header h4 { font-size: 14px; color: var(--ink); }
+        .dropdown-header p { font-size: 12px; color: var(--ink-3); }
+        .dropdown-item { padding: 12px 16px; font-size: 14px; color: var(--ink-2); cursor: pointer; transition: 0.15s; text-decoration: none; display: block; }
+        .dropdown-item:hover { background: var(--surface-2); color: var(--primary); }
+        .dropdown-divider { height: 1px; background: var(--border); }
+
+        /* Main Content */
+        .main-container { max-width: 1248px; margin: 0 auto; padding: 32px 24px; display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
+
+        .content-left { display: flex; flex-direction: column; gap: 24px; }
+        .content-right { display: flex; flex-direction: column; gap: 24px; }
+
+        /* Cards */
+        .card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .card-title { font-size: 18px; font-weight: 700; color: var(--ink); }
+        .card-subtitle { font-size: 14px; color: var(--ink-3); margin-top: -16px; margin-bottom: 20px; }
+
+        /* Identity Card */
+        .identity-card { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; padding: 24px; }
+        .id-left { display: flex; align-items: center; gap: 20px; }
+        .id-logo { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), #8b5cf6); color: white; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; overflow: hidden; }
+        .id-logo img { width: 100%; height: 100%; object-fit: cover; }
+        .id-info h1 { font-size: 22px; font-weight: 700; }
+        .id-meta { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
+        .chip { padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; background: var(--surface-3); color: var(--ink-2); }
+        .id-website { font-size: 12px; color: var(--ink-3); text-decoration: none; display: flex; align-items: center; gap: 4px; }
+
+        .id-center { display: flex; gap: 32px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); padding: 0 40px; }
+        .id-stat { text-align: center; }
+        .stat-label { font-size: 11px; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px; }
+        .stat-value { font-size: 18px; font-weight: 700; }
+
+        .id-right { text-align: right; }
+        .upgrade-cta { color: var(--primary); font-weight: 600; font-size: 14px; text-decoration: none; display: block; margin-top: 8px; }
+
+        /* Banner */
+        .banner { background: var(--primary-light); color: var(--primary); padding: 12px 24px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; margin-top: 20px; font-size: 14px; border: 1px solid #dbeafe; }
+        .progress-mini { height: 6px; width: 100px; background: #dbeafe; border-radius: 99px; overflow: hidden; position: relative; margin-left: 12px; }
+        .progress-mini-fill { height: 100%; background: var(--primary); transition: width 0.3s; }
+
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .stat-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); cursor: pointer; transition: 0.15s; }
+        .stat-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+        .stat-icon { font-size: 20px; margin-bottom: 12px; }
+        .stat-card-value { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+        .stat-card-sub { font-size: 12px; color: var(--ink-3); }
+
+        /* Jobs Section */
+        .job-item { border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 12px; position: relative; }
+        .job-item:last-child { margin-bottom: 0; }
+        .job-status { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px; text-transform: uppercase; }
+        .status-open { background: var(--success-bg); color: var(--success); }
+        .status-draft { background: var(--warning-bg); color: var(--warning); }
+        .status-closed { background: var(--surface-3); color: var(--ink-3); }
+        
+        .job-meta-row { display: flex; gap: 8px; margin: 8px 0; flex-wrap: wrap; }
+        .app-bar { background: var(--surface-2); padding: 10px 16px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+        .app-status-msg { font-size: 13px; font-weight: 600; }
+        .msg-amber { color: var(--warning); }
+        .msg-green { color: var(--success); }
+
+        /* Application Card */
+        .app-card { display: flex; gap: 16px; padding: 16px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; transition: 0.15s; }
+        .app-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--primary-light); }
+        .app-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--surface-3); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: 600; overflow: hidden; }
+        .app-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .app-center { flex: 1; min-width: 0; }
+        .app-name { font-weight: 700; font-size: 15px; }
+        .app-headline { font-size: 13px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .app-note { font-size: 13px; color: var(--ink-2); margin: 8px 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .app-right { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 80px; }
+        
+        /* AI Score Ring */
+        .score-ring { width: 40px; height: 40px; position: relative; }
+        .score-ring svg { transform: rotate(-90deg); }
+        .score-circle-bg { fill: none; stroke: var(--border); stroke-width: 3; }
+        .score-circle-fill { fill: none; stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 0.5s ease; }
+        .score-val { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+
+        /* Contract Card */
+        .contract-item { padding: 16px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 12px; }
+        .contract-progress { height: 8px; background: var(--surface-3); border-radius: 99px; display: flex; overflow: hidden; margin: 12px 0; }
+        .ms-segment { flex: 1; border-right: 1px solid white; transition: 0.3s; }
+        .ms-segment:last-child { border-right: none; }
+        .ms-approved { background: var(--success); }
+        .ms-submitted { background: var(--warning); animation: alert-pulse 2s infinite; }
+        .ms-funded { background: #0284c7; }
+        .ms-pending { background: #cbd5e1; }
+        
+        .action-alert { background: var(--warning-bg); border-left: 3px solid var(--warning); padding: 10px 16px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+
+        /* Right Column Cards */
+        .search-box { display: flex; gap: 8px; margin-bottom: 16px; }
+        .search-input { flex: 1; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; outline: none; }
+        .search-btn { background: var(--primary); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+        
+        .cat-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+        .cat-chip { padding: 4px 10px; border-radius: 99px; background: var(--surface-2); border: 1px solid var(--border); font-size: 12px; cursor: pointer; transition: 0.15s; }
+        .cat-chip:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+
+        /* Notif Feed */
+        .notif-feed { display: flex; flex-direction: column; }
+        .notif-item { padding: 12px 0; border-bottom: 1px solid var(--border); cursor: pointer; display: flex; gap: 12px; }
+        .notif-item:last-child { border-bottom: none; }
+        .notif-item.unread { border-left: 3px solid var(--primary); padding-left: 12px; background: var(--primary-light); }
+        .notif-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .notif-body h5 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+        .notif-body p { font-size: 12px; color: var(--ink-3); line-height: 1.4; }
+        .notif-time { font-size: 10px; color: var(--ink-3); margin-top: 4px; }
+
+        /* Donut Chart */
+        .donut-wrap { display: flex; align-items: center; justify-content: center; margin: 24px 0; position: relative; }
+        .donut-total { position: absolute; text-align: center; }
+        .donut-total span { display: block; font-size: 11px; color: var(--ink-3); text-transform: uppercase; }
+        .donut-total b { font-size: 16px; color: var(--ink); }
+        .legend { display: flex; flex-direction: column; gap: 8px; font-size: 12px; }
+        .legend-item { display: flex; align-items: center; gap: 8px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+        /* Steps */
+        .steps-list { display: flex; flex-direction: column; gap: 16px; }
+        .step-item { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+        .step-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .step-item.done .step-check { background: var(--success); border-color: var(--success); color: white; }
+        .step-item.done span { text-decoration: line-through; color: var(--ink-3); }
+
+        /* Kanban */
+        .kanban { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 24px; }
+        .kb-col { background: var(--surface-3); border-radius: 8px; padding: 12px; min-height: 300px; }
+        .kb-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--ink-3); text-transform: uppercase; margin-bottom: 12px; }
+        .kb-card { background: white; padding: 10px; border-radius: 6px; box-shadow: var(--shadow); margin-bottom: 8px; cursor: grab; font-size: 13px; border: 1px solid var(--border); }
+        .kb-card:hover { border-color: var(--primary); }
+        .kb-card-info { font-size: 11px; color: var(--ink-3); margin-top: 4px; }
+
+        /* Buttons */
+        .btn { border: none; border-radius: 8px; padding: 10px 20px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.15s; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; }
+        .btn-sm { padding: 6px 12px; font-size: 13px; }
+        .btn-xs { padding: 4px 10px; font-size: 11px; border-radius: 4px; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-outline { background: white; border: 1px solid var(--border); color: var(--ink-2); }
+        .btn-outline:hover { background: var(--surface-2); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-link { background: none; color: var(--primary); padding: 0; font-size: 13px; }
+
+        /* Toast */
+        .toast-container { position: fixed; top: 24px; right: 24px; z-index: 2000; display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
+        .toast { width: 320px; background: white; border-radius: 8px; box-shadow: var(--shadow-md); padding: 16px; border-left: 4px solid var(--primary); pointer-events: auto; animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; }
+        .toast-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: rgba(0,0,0,0.1); width: 100%; transform-origin: left; animation: toast-timer 4s linear forwards; }
+        @keyframes toast-timer { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+        /* Modal / Slideover */
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 2000; display: none; }
+        .overlay.active { display: block; }
+        .slideover { position: fixed; top: 0; right: 0; bottom: 0; width: 480px; background: white; z-index: 2001; transform: translateX(100%); transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; }
+        .slideover.active { transform: translateX(0); }
+        .so-header { padding: 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .so-body { flex: 1; overflow-y: auto; padding: 24px; }
+        .so-footer { padding: 20px 24px; background: var(--surface-2); border-top: 1px solid var(--border); }
+
+        /* Animations */
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes alert-pulse { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.7; } }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+        /* Skeleton */
+        .skeleton { background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite linear; color: transparent !important; }
+        .skeleton * { visibility: hidden; }
+
+        @media (max-width: 768px) {
+            .main-container { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .slideover { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="nav-brand">
+            <span class="nav-logo">TT</span>
+            <span class="nav-wordmark">TalentThread</span>
+        </a>
+        <div class="nav-links">
+            <a href="/client-dashboard" class="nav-link active">Dashboard</a>
+            <a href="/designers.html" class="nav-link">Find Designers</a>
+            <a href="/client-jobs.html" class="nav-link">My Jobs</a>
+            <a href="/contracts.html" class="nav-link">Contracts</a>
+            <a href="/messages.html" class="nav-link">Messages</a>
+        </div>
+        <div class="nav-right">
+            <button class="notif-btn" id="notif-bell-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                <div class="notif-badge" id="notif-badge"></div>
+            </button>
+            <div id="plan-badge-nav" class="plan-badge plan-free">FREE</div>
+            <div class="nav-user" id="nav-user-toggle">
+                <div id="nav-avatar-circle" class="nav-avatar">U</div>
+                <div class="dropdown" id="nav-dropdown">
+                    <div class="dropdown-header">
+                        <h4 id="drop-company-name">Company Name</h4>
+                        <p id="drop-email">email@example.com</p>
+                    </div>
+                    <a href="/profile-edit.html" class="dropdown-item">Edit Company Profile</a>
+                    <a href="/billing.html" class="dropdown-item">Billing & Subscription</a>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" id="logout-btn">Logout</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- Identity Card -->
+        <div class="card identity-card">
+            <div class="id-left">
+                <div class="id-logo" id="id-logo">TT</div>
+                <div class="id-info">
+                    <h1 id="id-company-name" class="skeleton">Company Name</h1>
+                    <div class="id-meta">
+                        <span class="chip" id="id-industry">Industry</span>
+                        <a href="#" class="id-website" id="id-website" target="_blank">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            Website
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="id-center">
+                <div class="id-stat">
+                    <span class="stat-label">Active Since</span>
+                    <span class="stat-value" id="id-joined">...</span>
+                </div>
+                <div class="id-stat">
+                    <span class="stat-label">Total Spent</span>
+                    <span class="stat-value" id="id-spent">₹0</span>
+                </div>
+                <div class="id-stat">
+                    <span class="stat-label">Designers Hired</span>
+                    <span class="stat-value" id="id-hired">0</span>
+                </div>
+            </div>
+            <div class="id-right">
+                <div id="id-plan-badge" class="plan-badge plan-free">FREE PLAN</div>
+                <a href="/pricing.html" id="upgrade-cta" class="upgrade-cta">Upgrade to Growth ₹1,499/mo →</a>
+            </div>
+        </div>
+
+        <div id="profile-banner" class="identity-card" style="grid-column: 1/-1; padding:0; display:none">
+             <div class="banner" style="width:100%">
+                <div style="display:flex; align-items:center">
+                    <b>Complete your company profile to attract top designers</b>
+                    <div class="progress-mini"><div class="progress-mini-fill" id="banner-progress-fill" style="width: 20%"></div></div>
+                    <span style="margin-left:8px; font-weight:600" id="banner-progress-text">20% complete</span>
+                </div>
+                <a href="/profile-edit.html" class="btn btn-sm btn-primary">Complete Profile →</a>
+             </div>
+        </div>
+
+        <!-- Left Column -->
+        <div class="content-left">
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card" onclick="scrollToId('my-jobs-section')">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-card-value" id="stat-active-jobs">0</div>
+                    <div class="stat-card-sub" id="stat-jobs-sub">0 draft(s)</div>
+                    <div id="job-limit-bar" class="progress-mini" style="width:100%; margin: 8px 0; display:none"><div class="progress-mini-fill" id="job-limit-fill"></div></div>
+                </div>
+                <div class="stat-card" onclick="scrollToId('apps-section')">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-card-value" id="stat-total-apps">0</div>
+                    <div class="stat-card-sub" id="stat-apps-sub">0 shortlisted</div>
+                </div>
+                <div class="stat-card" onclick="window.location.href='/contracts.html'">
+                    <div class="stat-icon">📄</div>
+                    <div class="stat-card-value" id="stat-active-contracts">0</div>
+                    <div class="stat-card-sub" id="stat-contracts-sub">0 completed all time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-card-value" id="stat-total-spent">₹0</div>
+                    <div class="stat-card-sub" id="stat-spent-sub">₹0 in escrow</div>
+                </div>
+            </div>
+
+            <!-- My Active Jobs -->
+            <section class="card" id="my-jobs-section">
+                <div class="card-header">
+                    <h2 class="card-title">My Jobs <span class="badge-count" id="job-count-badge">0</span></h2>
+                    <div style="display:flex; gap:12px">
+                        <a href="/post-job.html" class="btn btn-sm btn-primary">Post New Job +</a>
+                        <a href="/client-jobs.html" class="btn-link">View All →</a>
+                    </div>
+                </div>
+                <div class="filter-tabs" style="display:flex; gap:12px; margin-bottom:20px">
+                    <button class="btn btn-xs btn-outline active" data-job-filter="all">All</button>
+                    <button class="btn btn-xs btn-outline" data-job-filter="open">Open</button>
+                    <button class="btn btn-xs btn-outline" data-job-filter="draft">Draft</button>
+                    <button class="btn btn-xs btn-outline" data-job-filter="closed">Closed</button>
+                </div>
+                <div id="jobs-list" class="flex-column">
+                    <!-- Skeletons -->
+                    <div class="job-item skeleton"></div>
+                    <div class="job-item skeleton"></div>
+                </div>
+            </section>
+
+            <!-- Applications to Review -->
+            <section class="card" id="apps-section">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Applications to Review <span class="badge-count" id="app-count-badge">0</span></h2>
+                        <p class="text-xs text-grey mt-2">Sorted by AI score — highest quality first</p>
+                    </div>
+                </div>
+                <div id="apps-list">
+                    <!-- Skeletons -->
+                    <div class="app-card skeleton"></div>
+                </div>
+            </section>
+
+            <!-- Active Contracts -->
+            <section class="card" id="contracts-section">
+                <div class="card-header">
+                    <h2 class="card-title">Active Contracts <span class="badge-count" id="contract-count-badge">0</span></h2>
+                    <a href="/contracts.html" class="btn-link">View All →</a>
+                </div>
+                <div id="contracts-list">
+                    <!-- Skeletons -->
+                    <div class="contract-item skeleton"></div>
+                </div>
+            </section>
+
+            <!-- Kanban Pipeline -->
+            <section class="card" id="kanban-section">
+                <div class="card-header">
+                    <h2 class="card-title">Hiring Pipeline</h2>
+                    <a href="/client-applications.html" class="btn-link">View Full Pipeline →</a>
+                </div>
+                <div class="kanban">
+                    <div class="kb-col" id="kb-applied" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'applied')">
+                        <div class="kb-header"><span>Applied</span> <span id="kb-count-applied">0</span></div>
+                        <div class="kb-list"></div>
+                    </div>
+                    <div class="kb-col" id="kb-shortlisted" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'shortlisted')">
+                        <div class="kb-header"><span>Shortlisted</span> <span id="kb-count-shortlisted">0</span></div>
+                        <div class="kb-list"></div>
+                    </div>
+                    <div class="kb-col" id="kb-hired" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'hired')">
+                        <div class="kb-header"><span>Hired</span> <span id="kb-count-hired">0</span></div>
+                        <div class="kb-list"></div>
+                    </div>
+                    <div class="kb-col" id="kb-rejected" ondragover="allowDrop(event)" ondrop="handleDrop(event, 'rejected')">
+                        <div class="kb-header"><span>Rejected</span> <span id="kb-count-rejected">0</span></div>
+                        <div class="kb-list"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Right Column -->
+        <div class="content-right">
+            <!-- Find Designers -->
+            <section class="card">
+                <div class="card-header" style="margin-bottom:8px">
+                    <h2 class="card-title">Find Designers ✨</h2>
+                </div>
+                <p class="text-xs text-grey mb-4" style="margin-bottom:16px">Browse AI-scored talent matched to your needs</p>
+                <div class="search-box">
+                    <input type="text" id="designer-search" class="search-input" placeholder="Search by skill, tool, or discipline...">
+                    <button class="search-btn" id="designer-search-btn">→</button>
+                </div>
+                <div class="cat-chips">
+                    <div class="cat-chip" onclick="searchDiscipline('UI/UX Design')">UI/UX Design</div>
+                    <div class="cat-chip" onclick="searchDiscipline('Brand Identity')">Brand Identity</div>
+                    <div class="cat-chip" onclick="searchDiscipline('Motion Graphics')">Motion Graphics</div>
+                    <div class="cat-chip" onclick="searchDiscipline('Illustration')">Illustration</div>
+                    <div class="cat-chip" onclick="searchDiscipline('Web Design')">Web Design</div>
+                </div>
+                <div id="featured-designers" class="mt-4" style="display:flex; flex-direction:column; gap:12px; margin-top:20px">
+                    <!-- Skeletons -->
+                    <div class="skeleton" style="height:60px; border-radius:8px"></div>
+                    <div class="skeleton" style="height:60px; border-radius:8px"></div>
+                </div>
+                <a href="/designers.html" class="btn btn-outline w-full mt-4" style="width:100%; justify-content:center; margin-top:16px">Browse All Designers →</a>
+            </section>
+
+            <!-- Activity Feed -->
+            <section class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Activity <span class="badge-count" id="notif-count-pill" style="background:var(--primary); color:white; display:none">0</span></h2>
+                    <button class="btn-link" id="mark-all-read">Mark all read</button>
+                </div>
+                <div id="notif-list" class="notif-feed">
+                    <!-- Notifications here -->
+                    <p class="text-grey text-xs">Loading activity...</p>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="card">
+                <h2 class="card-title mb-4" style="margin-bottom:20px">Quick Actions</h2>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
+                    <a href="/post-job.html" class="btn btn-outline btn-sm" style="flex-direction:column; padding:16px; height:auto">📋 Post a Job</a>
+                    <a href="/designers.html" class="btn btn-outline btn-sm" style="flex-direction:column; padding:16px; height:auto">👥 Browse Designers</a>
+                    <a href="/contracts.html" class="btn btn-outline btn-sm" style="flex-direction:column; padding:16px; height:auto">📄 View Contracts</a>
+                    <a href="/messages.html" class="btn btn-outline btn-sm" style="flex-direction:column; padding:16px; height:auto; cursor:help" title="Coming Soon">💬 Messages</a>
+                </div>
+            </section>
+
+            <!-- Spending Overview -->
+            <section class="card">
+                <h2 class="card-title">Spending Overview</h2>
+                <div class="donut-wrap">
+                    <svg width="140" height="140" viewBox="0 0 42 42" id="donut-chart">
+                        <circle class="donut-hole" cx="21" cy="21" r="15.915" fill="transparent"></circle>
+                        <circle class="donut-ring" cx="21" cy="21" r="15.915" fill="transparent" stroke="#f1f5f9" stroke-width="3"></circle>
+                        <!-- Segments will be added here -->
+                        <circle id="segment-released" cx="21" cy="21" r="15.915" fill="transparent" stroke="var(--success)" stroke-width="3" stroke-dasharray="0 100" stroke-dashoffset="25"></circle>
+                        <circle id="segment-escrow" cx="21" cy="21" r="15.915" fill="transparent" stroke="#0284c7" stroke-width="3" stroke-dasharray="0 100" stroke-dashoffset="0"></circle>
+                    </svg>
+                    <div class="donut-total">
+                        <span>Total Paid</span>
+                        <b id="donut-total-val">₹0</b>
+                    </div>
+                </div>
+                <div class="legend">
+                    <div class="legend-item"><div class="dot" style="background:var(--success)"></div> Released to designers <span id="leg-released" style="margin-left:auto; font-weight:600">₹0</span></div>
+                    <div class="legend-item"><div class="dot" style="background:#0284c7"></div> In escrow <span id="leg-escrow" style="margin-left:auto; font-weight:600">₹0</span></div>
+                    <div class="legend-item"><div class="dot" style="background:#cbd5e1"></div> Pending milestones <span id="leg-pending" style="margin-left:auto; font-weight:600">₹0</span></div>
+                </div>
+                <p class="text-xs text-grey mt-4" style="margin-top:16px">Talent Thread charges 10% commission on all payments. Your designers receive 90% of each milestone amount.</p>
+            </section>
+
+            <!-- Complete Profile Steps -->
+            <section class="card" id="onboarding-steps">
+                <h2 class="card-title">Get the most out of Talent Thread</h2>
+                <p class="text-xs text-grey mt-2 mb-4" id="steps-progress-text">0 of 5 steps complete</p>
+                <div class="progress-mini" style="width:100%; margin-bottom:20px"><div class="progress-mini-fill" id="steps-progress-fill"></div></div>
+                <div class="steps-list">
+                    <div class="step-item" id="step-profile">
+                        <div class="step-check"></div>
+                        <span>Complete company profile</span>
+                        <a href="/profile-edit.html" class="btn btn-xs btn-link ml-auto" style="margin-left:auto">Complete</a>
+                    </div>
+                    <div class="step-item" id="step-logo">
+                        <div class="step-check"></div>
+                        <span>Upload company logo</span>
+                        <a href="/profile-edit.html" class="btn btn-xs btn-link ml-auto" style="margin-left:auto">Add Logo</a>
+                    </div>
+                    <div class="step-item" id="step-job">
+                        <div class="step-check"></div>
+                        <span>Post your first job</span>
+                        <a href="/post-job.html" class="btn btn-xs btn-link ml-auto" style="margin-left:auto">Post Job</a>
+                    </div>
+                    <div class="step-item" id="step-review">
+                        <div class="step-check"></div>
+                        <span>Review your first application</span>
+                        <a href="#apps-section" class="btn btn-xs btn-link ml-auto" style="margin-left:auto">View Apps</a>
+                    </div>
+                    <div class="step-item" id="step-fund">
+                        <div class="step-check"></div>
+                        <span>Fund your first milestone</span>
+                        <a href="/contracts.html" class="btn btn-xs btn-link ml-auto" style="margin-left:auto">Contracts</a>
+                    </div>
+                </div>
+                <div id="all-set-msg" style="display:none; text-align:center; padding:20px 0">
+                    🎉 <b>You're all set!</b><br>Your company is fully set up on Talent Thread.
+                </div>
+            </section>
+
+            <!-- Budget Tracker -->
+            <section class="card">
+                <h2 class="card-title">Budget Tracker</h2>
+                <div id="budget-content">
+                    <p class="text-xs text-grey mt-4">No monthly budget set yet.</p>
+                    <button class="btn btn-link mt-2" onclick="window.location.href='/profile-edit.html'">Set a monthly budget →</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Contract Creation Modal (Slideover) -->
+    <div class="overlay" id="hire-overlay" onclick="closeHireModal()"></div>
+    <div class="slideover" id="hire-panel">
+        <div class="so-header">
+            <h3>Create Contract with <span id="hire-designer-name">Designer</span></h3>
+            <button class="btn-outline" onclick="closeHireModal()">×</button>
+        </div>
+        <div class="so-body">
+            <div class="form-group">
+                <label class="form-label">Contract Title *</label>
+                <input type="text" id="c-title" class="form-input" placeholder="e.g. Website UX Overhaul">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Project Scope *</label>
+                <textarea id="c-scope" class="form-textarea" placeholder="Detailed description of deliverables..."></textarea>
+            </div>
+            <div style="margin-bottom:20px">
+                <div class="flex-between" style="margin-bottom:12px">
+                    <label class="form-label" style="margin:0">Milestones</label>
+                    <button class="btn btn-xs btn-outline" id="add-milestone-btn">+ Add Milestone</button>
+                </div>
+                <div id="milestone-rows" style="display:flex; flex-direction:column; gap:12px">
+                    <!-- Milestone Row -->
+                    <div class="milestone-row" style="display:grid; grid-template-columns:1fr 100px 120px 32px; gap:8px">
+                        <input type="text" placeholder="Title" class="form-input ms-title">
+                        <input type="number" placeholder="₹ Amount" class="form-input ms-amount">
+                        <input type="date" class="form-input ms-date">
+                        <button class="btn-xs btn-outline" style="color:var(--danger)">×</button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-between" style="padding:16px; background:var(--surface-3); border-radius:8px">
+                <span class="font-bold">Total Contract Value:</span>
+                <b id="c-total-val">₹0</b>
+            </div>
+            <div class="form-group mt-4" style="margin-top:20px; display:flex; gap:10px; align-items:flex-start">
+                <input type="checkbox" id="c-terms" style="margin-top:4px">
+                <label for="c-terms" class="text-xs text-grey">I agree that payments will be held in escrow until I approve each milestone. Platform fee of 10% applies.</label>
+            </div>
+        </div>
+        <div class="so-footer">
+            <button id="create-contract-btn" class="btn btn-success" style="width:100%; justify-content:center">Create Contract & Start Project</button>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <script type="module" src="/js/shared.js"></script>
+    <script type="module" src="/js/client-dashboard.js"></script>
+    <script>
+        function allowDrop(ev) { ev.preventDefault(); }
+        function scrollToId(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+        window.searchDiscipline = (d) => { window.location.href = `/designers.html?discipline=${encodeURIComponent(d)}`; }
+    </script>
+</body>
+</html>

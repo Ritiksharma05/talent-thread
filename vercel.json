@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "name": "talent-thread",
+  "framework": null,
+  "buildCommand": "",
+  "functions": {
+    "api/**/*.mjs": {
+      "maxDuration": 60
+    }
+  }
+}

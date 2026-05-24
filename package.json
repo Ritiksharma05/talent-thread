@@ -1,0 +1,17 @@
+{
+  "name": "talent-thread",
+  "version": "0.1.0",
+  "description": "Talent Thread MVP for designer assessment and challenge-based growth.",
+  "main": "server.js",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "firebase": "^12.12.1",
+    "pdf-parse": "^1.1.1"
+  }
+}

@@ -1,0 +1,5 @@
+data/app-state.json
+
+.env
+.vercel
+node_modules

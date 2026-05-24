@@ -1,0 +1,649 @@
+/* ===================================================
+   Talent Thread — Profile Dashboard
+   Two-column sticky sidebar layout
+   =================================================== */
+
+/* ── Page ── */
+.pd-main {
+  min-height: calc(100vh - 3.25rem);
+  background: var(--bg);
+}
+
+/* ── Auth Gate ── */
+.pd-auth-gate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: 3rem 1.5rem;
+}
+
+.pd-auth-gate.hidden { display: none; }
+
+.pd-auth-gate-inner {
+  text-align: center;
+  max-width: 400px;
+  display: grid;
+  gap: 1.125rem;
+  justify-items: center;
+}
+
+.pd-auth-icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.pd-auth-gate-inner h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+
+.pd-auth-gate-inner p {
+  margin: 0;
+  color: var(--ink-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+.pd-auth-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ── Two-Column Layout ── */
+.pd-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 3.25rem);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.pd-layout.hidden { display: none; }
+
+/* ─────────────────────────────────────────────
+   SIDEBAR
+───────────────────────────────────────────── */
+.pd-sidebar {
+  position: sticky;
+  top: calc(3.25rem + 1.5rem); /* header height + gap */
+}
+
+.pd-sidebar-inner {
+  display: grid;
+  gap: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-xs);
+}
+
+/* Identity block */
+.pd-identity {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+.pd-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.pd-avatar-img,
+.pd-avatar-fallback {
+  width: 4rem; height: 4rem;
+  border-radius: 1rem;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1, #2563eb);
+  font-family: var(--font-display);
+  object-fit: cover;
+}
+
+.pd-avatar-badge {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  padding: 0.15rem 0.4rem;
+  border-radius: 9999px;
+  background: var(--accent);
+  color: #fff;
+  border: 1.5px solid var(--surface);
+}
+
+.pd-name {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.pd-headline {
+  margin: 0.2rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+  line-height: 1.4;
+}
+
+/* Meta chips */
+.pd-meta-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+/* Tool/label chips */
+.pd-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.pd-chip {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+}
+
+.pd-chip.accent-chip {
+  background: var(--accent-soft);
+  border-color: #bfdbfe;
+  color: var(--accent-text);
+}
+
+/* Sidebar section label */
+.pd-section-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  margin-top: 0.25rem;
+}
+
+/* About text */
+.pd-about {
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+  line-height: 1.65;
+}
+
+/* Divider */
+.pd-divider {
+  height: 1px;
+  background: var(--border-soft);
+  margin: 0;
+}
+
+/* CTA buttons */
+.pd-cta-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease, color 150ms ease;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+}
+
+.pd-cta-solid {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.2);
+}
+.pd-cta-solid:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+}
+
+.pd-cta-outline {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--ink);
+}
+.pd-cta-outline:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.pd-cta-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--ink-secondary);
+  font-size: 0.8125rem;
+}
+.pd-cta-ghost:hover {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* Stats grid */
+.pd-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.pd-stat {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 0.625rem 0.75rem;
+}
+
+.pd-stat-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--ink);
+  font-family: var(--font-display);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.pd-stat-label {
+  font-size: 0.65rem;
+  color: var(--ink-muted);
+  font-weight: 600;
+  margin-top: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ─────────────────────────────────────────────
+   MAIN PANEL
+───────────────────────────────────────────── */
+.pd-main-panel {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.pd-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-xs);
+}
+
+.pd-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+}
+
+.pd-section-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.pd-section-link {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 150ms ease;
+  white-space: nowrap;
+}
+.pd-section-link:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+/* ── AI Score Card ── */
+.pd-score-empty {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem 0;
+  color: var(--ink-secondary);
+  font-size: 0.9375rem;
+}
+
+.pd-score-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.75rem;
+  align-items: center;
+}
+
+.pd-score-card.hidden { display: none; }
+
+.pd-score-ring-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.pd-score-band {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+}
+
+.pd-score-dims {
+  display: grid;
+  gap: 0.625rem;
+}
+
+.pd-dim-item { display: grid; gap: 0.25rem; }
+
+.pd-dim-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-secondary);
+}
+
+.pd-dim-score { font-weight: 700; color: var(--accent); }
+
+.pd-dim-track {
+  height: 6px;
+  background: var(--border);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.pd-dim-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #6366f1, #2563eb);
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Growth Lab: XP Bar ── */
+.pd-xp-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+}
+
+.pd-xp-level {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+  min-width: 4rem;
+}
+
+.pd-xp-track {
+  flex: 1;
+  height: 6px;
+  background: var(--border);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.pd-xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #2563eb);
+  border-radius: 9999px;
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pd-xp-num {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ink-secondary);
+  white-space: nowrap;
+  min-width: 4rem;
+  text-align: right;
+}
+
+/* Challenges */
+.pd-growth-challenges {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.pd-challenge-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  transition: border-color 150ms ease;
+}
+
+.pd-challenge-card:hover { border-color: var(--accent); }
+
+.pd-challenge-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--warning);
+}
+.pd-challenge-dot.done   { background: var(--success); }
+.pd-challenge-dot.locked { background: var(--ink-muted); }
+
+.pd-challenge-title {
+  flex: 1;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.pd-challenge-xp {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.175rem 0.5rem;
+  border-radius: 9999px;
+  background: #dbeafe;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.pd-challenge-empty {
+  padding: 0.75rem;
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+}
+.pd-challenge-empty a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.pd-challenge-empty a:hover { text-decoration: underline; }
+
+/* Badges row */
+.pd-badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pd-badge-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.35rem 0.75rem;
+  background: #fef9c3;
+  border: 1px solid #fde68a;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #92400e;
+}
+
+/* ── Activity ── */
+.pd-activity-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.pd-activity-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-muted);
+  margin-bottom: 0.75rem;
+}
+
+.pd-activity-list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.pd-empty-inline {
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+  padding: 0.75rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+}
+
+/* ── History ── */
+.pd-history-list {
+  display: grid;
+  gap: 0.625rem;
+}
+
+.pd-history-entry {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  transition: border-color 150ms ease;
+}
+
+.pd-history-entry:hover { border-color: var(--accent); }
+
+.pd-history-date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+.pd-history-score {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--ink);
+  font-family: var(--font-display);
+  min-width: 2.5rem;
+  text-align: right;
+}
+
+.pd-history-band {
+  flex: 1;
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+}
+
+/* ── Client Layout ── */
+.pd-client-layout {
+  padding: 2rem 0 3rem;
+}
+
+.pd-client-layout.hidden { display: none; }
+
+/* ── Footer ── */
+.pd-footer {
+  border-top: 1px solid var(--border-soft);
+  padding: 1.5rem 0;
+  background: var(--bg-subtle);
+}
+
+.pd-footer .shell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pd-footer .footer-logo {
+  height: 1.5rem;
+}
+
+.pd-footer p {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--ink-muted);
+}
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .pd-layout {
+    grid-template-columns: 1fr;
+    padding: 1.25rem 1rem;
+    gap: 1.5rem;
+  }
+
+  .pd-sidebar {
+    position: static;
+  }
+
+  .pd-activity-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .pd-score-card {
+    grid-template-columns: 1fr;
+  }
+
+  .pd-score-ring-col {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+
