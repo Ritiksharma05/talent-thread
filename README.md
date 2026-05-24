@@ -80,3 +80,4 @@ The current app has been smoke-tested for:
 - client shortlist action
 - page loads for all major routes
 "# talent.thread" 
+"# talent.thread." 
